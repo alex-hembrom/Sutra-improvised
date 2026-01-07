@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+/* 1. GAMING FONTS */
+@theme {
+  --font-display: "Orbitron", sans-serif;
+  --font-body: "Rajdhani", sans-serif;
+}
+
+/* 2. THE CYBER GRID BACKGROUND (Moving Animation) */
+body {
+  background-color: #050510;
+  background-image: 
+    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center top;
+  color: white;
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  animation: scrollGrid 20s linear infinite;
+}
+
+/* Move the grid slowly to create depth */
+@keyframes scrollGrid {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 40px; }
+}
+
+/* 3. NEON GLOW EFFECTS */
+.neon-text {
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.neon-box {
+  box-shadow: 0 0 15px rgba(147, 51, 234, 0.3);
+  border: 1px solid rgba(147, 51, 234, 0.5);
+}
+
+/* 4. FLOATING ANIMATION (For Hero Elements) */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* 5. PULSE BUTTON */
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(0, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 255, 255, 0); }
+}
+
+.btn-gamified {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Print Cleanup */
+@media print {
+  body { background: white !important; color: black !important; animation: none; }
+  .no-print { display: none !important; }
+}
+/* 6. ROTATING BORDER ANIMATION */
+@keyframes border-spin {
+  from { --angle: 0deg; }
+  to { --angle: 360deg; }
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.animate-border-glow {
+  position: relative;
+  /* This creates a gradient that spins based on the angle */
+  background-image: conic-gradient(from var(--angle) at 50% 50%, transparent 50%, #06b6d4, #a855f7, transparent);
+  animation: border-spin 4s linear infinite;
+  z-index: 0;
+  padding: 2px; /* Thickness of the glowing border */
+  border-radius: 1rem;
+}
+
+/* 7. TYPING CURSOR EFFECT */
+.typing-cursor::after {
+  content: '|';
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* 8. ARC REACTOR PULSING GLOW */
+@keyframes reactor-pulse {
+  0% {
+    /* Dim state */
+    filter: drop-shadow(0 0 5px rgba(103, 232, 249, 0.5)) brightness(0.8);
+    opacity: 0.7;
+  }
+  50% {
+    /* Maximum brightness */
+    filter: drop-shadow(0 0 30px rgba(103, 232, 249, 1)) brightness(1.3);
+    opacity: 1;
+  }
+  100% {
+    /* Back to dim */
+    filter: drop-shadow(0 0 5px rgba(103, 232, 249, 0.5)) brightness(0.8);
+    opacity: 0.7;
+  }
+}
+
+.animate-reactor {
+  /* Apply the animation over 4 seconds, in a smooth loop */
+  animation: reactor-pulse 4s ease-in-out infinite;
+}
+
+/* 9. THE ENERGY WIRE */
+@keyframes energy-flow {
+  0% { stroke-dashoffset: 100; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+.animate-wire-shoot {
+  stroke-dasharray: 100; /* Length of the wire */
+  stroke-dashoffset: 100; /* Start hidden */
+  animation: energy-flow 0.8s ease-out forwards; /* Run once, stay visible */
+}
+
+/* 10. REACTOR POWER SURGE */
+/* 10. REACTOR POWER SURGE (SUPERNOVA VERSION) */
+/* 10. REACTOR POWER SURGE (SUSTAINED VERSION) */
+@keyframes power-surge {
+  0% { 
+    filter: drop-shadow(0 0 5px #22d3ee) brightness(1); 
+    transform: scale(1); 
+    opacity: 1;
+  }
+  20% {
+    /* Fast Flash to White */
+    filter: drop-shadow(0 0 60px #ffffff) brightness(5);
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  70% {
+    /* SUSTAIN: Stay Bright White for longer */
+    filter: drop-shadow(0 0 150px #ffffff) brightness(10);
+    transform: scale(1.6);
+    opacity: 1;
+  }
+  100% { 
+    /* Final Fade Out */
+    filter: drop-shadow(0 0 150px #ffffff) brightness(10); 
+    transform: scale(2); 
+    opacity: 0; 
+  }
+}
+
+.animate-reactor-surge {
+  /* Increased duration to 2.5s to make it feel epic */
+  animation: power-surge 2.5s ease-out forwards !important; 
+  animation-delay: 0.6s; /* Wait for wire */
+}
+/* 11. SCAN LINE ANIMATION (For AI Console) */
+@keyframes scan {
+  0% { top: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
