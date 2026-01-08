@@ -19,7 +19,18 @@ function App() {
   return (
     <div className="min-h-screen relative font-body text-white overflow-x-hidden selection:bg-cyan-500 selection:text-black">
       
-      {/* 🌌 ROTATING BACKGROUND CONTAINER */}
+      {/* 🟢 FIXED: LANDING PAGE CORNER LIGHTS (Only visible when !started) */}
+      {!started && (
+        <>
+          {/* Top Left Light - Purple */}
+          <div className={`fixed -top-40 -left-40 w-[500px] h-[500px] bg-purple-600 rounded-full blur-[120px] opacity-40 animate-pulse pointer-events-none transition-opacity duration-1000 ${isLaunching ? 'opacity-0' : 'opacity-40'}`}></div>
+          
+          {/* Bottom Right Light - Blue (With Delay) */}
+          <div className={`fixed -bottom-40 -right-40 w-[500px] h-[500px] bg-blue-600 rounded-full blur-[120px] opacity-40 animate-pulse delay-1000 pointer-events-none transition-opacity duration-1000 ${isLaunching ? 'opacity-0' : 'opacity-40'}`}></div>
+        </>
+      )}
+
+      {/* 🌌 ROTATING BACKGROUND CONTAINER (Your existing Logic) */}
       <div className="fixed inset-0 overflow-hidden -z-10 pointer-events-none flex items-center justify-center">
         
         {/* THE GIANT ROTATING SQUARE */}
@@ -29,17 +40,14 @@ function App() {
           style={{ transform: started ? `rotate(${(wizardLevel - 1) * 90}deg)` : 'rotate(0deg)' }}
         >
           
-          {/* BLOB 1: Starts Top-Left, moves clockwise */}
-          {/* I moved this to 'top-[15%] left-[15%]' so it orbits widely */}
+          {/* These blobs are now only for the WIZARD (Started) state to avoid clashing with the corner lights */}
           <div className={`absolute w-[600px] h-[600px] rounded-full blur-[120px] opacity-20 transition-all duration-[2000ms] ease-in-out animate-pulse
-            ${started ? 'top-[15%] left-[15%] scale-150' : 'top-[30%] left-[30%]'}
+            ${started ? 'top-[15%] left-[15%] scale-150 opacity-30' : 'top-[40%] left-[40%] scale-0 opacity-0'}
             ${wizardLevel % 2 === 0 ? 'bg-purple-600' : 'bg-blue-600'} 
           `}></div>
 
-          {/* BLOB 2: Starts Bottom-Right, moves clockwise */}
-          {/* I moved this to 'bottom-[15%] right-[15%]' */}
           <div className={`absolute w-[600px] h-[600px] rounded-full blur-[120px] opacity-20 transition-all duration-[2000ms] ease-in-out delay-100 animate-pulse
-            ${started ? 'bottom-[15%] right-[15%] scale-150' : 'bottom-[30%] right-[30%]'}
+            ${started ? 'bottom-[15%] right-[15%] scale-150 opacity-30' : 'bottom-[40%] right-[40%] scale-0 opacity-0'}
             ${wizardLevel % 2 === 0 ? 'bg-cyan-600' : 'bg-emerald-500'}
           `}></div>
 
