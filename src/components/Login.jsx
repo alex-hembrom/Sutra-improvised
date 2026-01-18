@@ -3,10 +3,10 @@ import { loginWithGoogle } from "../firebase";
 
 const Login = () => {
   return (
-    <div className="h-screen bg-black flex flex-col items-center justify-center text-white relative overflow-hidden">
+    <div className="h-screen bg-slate-950 flex flex-col items-center justify-center text-white relative overflow-hidden">
       
-      {/* Background Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+      {/* Background */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.05)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
       
       <div className="z-10 text-center p-12 bg-slate-900/80 border border-cyan-500/30 rounded-2xl backdrop-blur-xl shadow-[0_0_50px_rgba(6,182,212,0.15)] max-w-md w-full mx-4">
         

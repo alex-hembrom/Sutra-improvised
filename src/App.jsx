@@ -42,16 +42,13 @@ function AppContent() {
         element={
           user ? (
             // Dashboard Layout with Header on all pages
-            <div className="bg-black min-h-screen font-sans selection:bg-cyan-500/30 flex flex-col relative overflow-hidden">
-              
-              {/* BACKGROUND GRID */}
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+            <div className="bg-slate-950 min-h-screen font-sans selection:bg-cyan-500/30 flex flex-col relative overflow-hidden">
               
               {/* Dashboard Header - Appears on all phases */}
               <DashboardHeader userEmail={user.email} />
               
               {/* Wizard Container - Centered */}
-              <div className="flex-1 flex items-center justify-center p-4 py-8 md:p-8 relative z-10">
+              <div className="flex-1 flex items-center justify-center p-4 py-8 md:p-8">
                 <div className="w-full max-w-6xl">
                   <Wizard userId={user.uid} /> 
                 </div>
