@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "r
 import Wizard from "./components/Wizard/Wizard";
 import Login from "./components/Login";
 import LandingPage from "./components/LandingPage"; // Import the new page
+import DashboardHeader from "./components/DashboardHeader";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -40,27 +41,17 @@ function AppContent() {
         path="/dashboard" 
         element={
           user ? (
-            // This Layout ensures the Wizard is centered and Logout is at the top
-            <div className="bg-slate-950 min-h-screen font-sans selection:bg-cyan-500/30 flex flex-col relative overflow-hidden">
+            // Dashboard Layout with Header on all pages
+            <div className="bg-black min-h-screen font-sans selection:bg-cyan-500/30 flex flex-col relative overflow-hidden">
               
-              {/* Logout Header */}
-              <div className="absolute top-0 w-full p-6 flex justify-end items-center z-50 bg-gradient-to-b from-slate-900 to-transparent">
-                <span className="text-slate-500 text-xs font-mono hidden md:inline mr-4">
-                  AGENT: {user.email}
-                </span>
-                <button 
-                  onClick={() => {
-                    auth.signOut();
-                    navigate("/");
-                  }}
-                  className="text-xs text-red-400 border border-red-500/30 px-3 py-1 rounded hover:bg-red-900/20 backdrop-blur-sm transition-all"
-                >
-                  LOGOUT
-                </button>
-              </div>
+              {/* BACKGROUND GRID */}
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+              
+              {/* Dashboard Header - Appears on all phases */}
+              <DashboardHeader userEmail={user.email} />
               
               {/* Wizard Container - Centered */}
-              <div className="flex-1 flex items-center justify-center p-4 pt-20 md:p-8">
+              <div className="flex-1 flex items-center justify-center p-4 py-8 md:p-8 relative z-10">
                 <div className="w-full max-w-6xl">
                   <Wizard userId={user.uid} /> 
                 </div>
