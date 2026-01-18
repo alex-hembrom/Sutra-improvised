@@ -1,9 +1,13 @@
-// src/firebase.js
+// File: src/firebase.js
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { 
+  getAuth, 
+  GoogleAuthProvider, 
+  signInWithPopup, 
+  signOut 
+} from "firebase/auth"; // <--- Added these imports
 
-// REPLACE THIS WITH YOUR REAL KEYS FROM FIREBASE CONSOLE LATER
 const firebaseConfig = {
   apiKey: "AIzaSyA7Sc414opnaQ6ohBCdLh_VMkDsIn8T6p4",
   authDomain: "sutra-app-b8f1e.firebaseapp.com",
@@ -17,3 +21,14 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
+
+// 👇 THIS WAS MISSING. ADD THIS PART 👇
+export const loginWithGoogle = async () => {
+  try {
+    await signInWithPopup(auth, googleProvider);
+  } catch (error) {
+    console.error("Login failed", error);
+  }
+};
+
+export const logout = () => signOut(auth);
