@@ -1,75 +1,62 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
-import Wizard from "./components/Wizard/Wizard";
-import Login from "./components/Login";
-import LandingPage from "./components/LandingPage"; // Import the new page
-import DashboardHeader from "./components/DashboardHeader";
-import { auth } from "./firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { auth } from './firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import LandingPage from './components/LandingPage';
+import DashboardHeader from './components/DashboardHeader';
+import Login from './components/Login';
+import Wizard from './components/Wizard/Wizard';
+import './App.css';
 
-function AppContent() {
+// Protected Route Component
+const ProtectedRoute = ({ user, loading, children }) => {
+  if (loading) {
+    return <div className="min-h-screen bg-[#050510] flex items-center justify-center text-cyan-400">INITIALIZING...</div>;
+  }
+  return user ? children : <Navigate to="/login" replace />;
+};
+
+function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    // Listen for login state changes
+    // Listen for auth state changes
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
     });
-    return () => unsubscribe();
+
+    return unsubscribe;
   }, []);
 
-  if (loading) return <div className="bg-slate-950 h-screen flex items-center justify-center text-cyan-500 font-mono">LOADING SYSTEM...</div>;
-
-  return (
-    <Routes>
-      
-      {/* 1. LANDING PAGE (First Screen) */}
-      <Route path="/" element={<LandingPage />} />
-
-      {/* 2. LOGIN PAGE */}
-      {/* If user is already logged in, send them to Dashboard immediately */}
-      <Route 
-        path="/login" 
-        element={user ? <Navigate to="/dashboard" /> : <Login />} 
-      />
-
-      {/* 3. DASHBOARD (The Wizard) - Protected Route */}
-      <Route 
-        path="/dashboard" 
-        element={
-          user ? (
-            // Dashboard Layout with Header on all pages
-            <div className="bg-slate-950 min-h-screen font-sans selection:bg-cyan-500/30 flex flex-col relative overflow-hidden">
-              
-              {/* Dashboard Header - Appears on all phases */}
-              <DashboardHeader userEmail={user.email} />
-              
-              {/* Wizard Container - Centered */}
-              <div className="flex-1 flex items-center justify-center p-4 py-8 md:p-8">
-                <div className="w-full max-w-6xl">
-                  <Wizard userId={user.uid} /> 
-                </div>
-              </div>
-
-            </div>
-          ) : (
-            // If not logged in, kick them back to Login
-            <Navigate to="/login" />
-          )
-        } 
-      />
-
-    </Routes>
-  );
-}
-
-function App() {
   return (
     <Router>
-      <AppContent />
+      <div className="App bg-[#050510] min-h-screen text-white pt-24">
+        {/* Header is here, so it appears on ALL pages */}
+        <DashboardHeader />
+        
+        <Routes>
+          {/* Landing page (no auth required) */}
+          <Route path="/" element={<LandingPage />} />
+          
+          {/* Login page (no auth required) */}
+          <Route path="/login" element={<Login />} />
+          
+          {/* Dashboard redirect */}
+          <Route path="/dashboard" element={<LandingPage />} />
+          
+          {/* Wizard - PROTECTED (Phase 01) */}
+          <Route 
+            path="/wizard" 
+            element={
+              <ProtectedRoute user={user} loading={loading}>
+                <Wizard userId={user?.uid} />
+              </ProtectedRoute>
+            } 
+          />
+        </Routes>
+      </div>
     </Router>
   );
 }
