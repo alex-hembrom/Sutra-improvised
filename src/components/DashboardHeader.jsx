@@ -24,11 +24,24 @@ const DashboardHeader = () => {
     }
   };
 
+  // Helper to scroll to sections if on landing page
+  const scrollToSection = (id) => {
+    if (window.location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) element.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      const element = document.getElementById(id);
+      if (element) element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    // Fixed positioning to stay at the top of every page
     <nav className="fixed top-0 left-0 right-0 z-50 w-full p-6 flex items-center justify-between border-b border-cyan-500/10 bg-slate-900/40 backdrop-blur-sm">
       
-      {/* LOGO - Clicking also goes to Home */}
+      {/* LOGO */}
       <div 
         onClick={() => navigate("/")}
         className="text-2xl font-display font-bold tracking-[0.2em] text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] cursor-pointer hover:animate-glitch" 
@@ -38,7 +51,7 @@ const DashboardHeader = () => {
       </div>
       
       {/* NAVIGATION LINKS */}
-      <div className="hidden md:flex gap-12 text-sm md:text-base font-mono tracking-widest text-slate-400">
+      <div className="hidden md:flex gap-8 text-sm md:text-base font-mono tracking-widest text-slate-400">
         <button 
           onClick={() => navigate("/")} 
           className="relative group overflow-hidden px-2 hover:text-cyan-400 transition-colors uppercase"
@@ -47,12 +60,21 @@ const DashboardHeader = () => {
           <span className="absolute bottom-0 left-0 w-full h-0.5 bg-cyan-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
         </button>
 
-        {["About", "Blog", "Systems"].map((item) => (
-          <button key={item} className="relative group overflow-hidden px-2 hover:text-cyan-400 transition-colors uppercase">
-            <span className="relative z-10">{item}</span>
-            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-cyan-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-          </button>
-        ))}
+        {/* UPDATED LINKS HERE */}
+        <button onClick={() => scrollToSection("problem-statement")} className="relative group overflow-hidden px-2 hover:text-cyan-400 transition-colors uppercase">
+          <span className="relative z-10">Problem Statement</span>
+          <span className="absolute bottom-0 left-0 w-full h-0.5 bg-cyan-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+        </button>
+
+        <button onClick={() => scrollToSection("solution")} className="relative group overflow-hidden px-2 hover:text-cyan-400 transition-colors uppercase">
+          <span className="relative z-10">Solution</span>
+          <span className="absolute bottom-0 left-0 w-full h-0.5 bg-cyan-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+        </button>
+
+        <button onClick={() => scrollToSection("systems")} className="relative group overflow-hidden px-2 hover:text-cyan-400 transition-colors uppercase">
+          <span className="relative z-10">Systems</span>
+          <span className="absolute bottom-0 left-0 w-full h-0.5 bg-cyan-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+        </button>
       </div>
 
       {/* LOGIN BUTTON */}
