@@ -74,12 +74,12 @@ const LandingPage = () => {
       {/* HERO SECTION */}
       <div className="flex-1 flex flex-col items-center justify-center relative z-10 px-4 mt-10">
         <div className="relative mb-6 group">
-          <h1 className="text-7xl md:text-9xl font-display font-black text-center tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-500 relative z-10" 
-              style={{textShadow: '0 0 20px rgba(6,182,212,0.5)'}}>
+          <h1 className="text-7xl md:text-9xl font-thin text-center tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-cyan-100 via-white to-cyan-200 relative z-10" 
+              style={{fontFamily: 'Samarkan, sans-serif', textShadow: '0 0 30px rgba(6,182,212,0.8), 0 0 60px rgba(34,211,238,0.6), 0 0 90px rgba(6,182,212,0.4)', letterSpacing: '-2px', fontWeight: 300}}>
             SUTRA
           </h1>
-          <h1 className="absolute top-0 left-0 text-7xl md:text-9xl font-display font-black text-center tracking-tighter text-cyan-500 opacity-0 group-hover:opacity-70 animate-glitch-1" aria-hidden="true">SUTRA</h1>
-          <h1 className="absolute top-0 left-0 text-7xl md:text-9xl font-display font-black text-center tracking-tighter text-purple-500 opacity-0 group-hover:opacity-70 animate-glitch-2" aria-hidden="true">SUTRA</h1>
+          <h1 className="absolute top-0 left-0 text-7xl md:text-9xl text-center tracking-tighter text-cyan-300 opacity-0 group-hover:opacity-50 animate-glitch-1" style={{fontFamily: 'Samarkan, sans-serif', letterSpacing: '-2px', fontWeight: 300}} aria-hidden="true">SUTRA</h1>
+          <h1 className="absolute top-0 left-0 text-7xl md:text-9xl text-center tracking-tighter text-purple-300 opacity-0 group-hover:opacity-50 animate-glitch-2" style={{fontFamily: 'Samarkan, sans-serif', letterSpacing: '-2px', fontWeight: 300}} aria-hidden="true">SUTRA</h1>
         </div>
         
         <p className="text-cyan-500 font-mono text-xs md:text-sm tracking-[0.5em] mb-16 uppercase text-center border-y border-cyan-500/30 py-2 w-full max-w-lg bg-cyan-950/20 backdrop-blur-md">

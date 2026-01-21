@@ -1,9 +1,18 @@
 @import "tailwindcss";
 
+/* 0. CUSTOM FONTS */
+@font-face {
+  font-family: "Samarkan";
+  src: url("/SamarkanNormal-Gg5D.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* 1. GAMING FONTS */
 @theme {
   --font-display: "Orbitron", sans-serif;
   --font-body: "Rajdhani", sans-serif;
+  --font-title: "Samarkan", sans-serif;
 }
 
 /* 2. THE CYBER GRID BACKGROUND (Moving Animation) */

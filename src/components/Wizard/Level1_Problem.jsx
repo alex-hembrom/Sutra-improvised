@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { TypeAnimation } from "react-type-animation";
 
-const Level1_Problem = ({ data, update, next }) => {
+const Level1_Problem = ({ data, update, next, back }) => {
   // 1. State for the Clarity Meter
   const [analysisScore, setAnalysisScore] = useState(0);
   
@@ -145,7 +145,16 @@ const Level1_Problem = ({ data, update, next }) => {
       </div>
 
       {/* NAVIGATION */}
-      <div className="flex justify-end pt-8 border-t border-white/5 mt-8">
+      <div className="flex justify-between pt-8 border-t border-white/5 mt-8">
+        <button
+          onClick={back}
+          className="group relative px-8 py-3 overflow-hidden rounded-lg font-bold transition-all bg-slate-700 hover:bg-slate-600 text-white shadow-[0_0_20px_rgba(15,23,42,0.4)] hover:shadow-[0_0_20px_rgba(71,85,105,0.4)]"
+        >
+          <div className="absolute inset-0 w-0 bg-white opacity-20 transition-all duration-[250ms] ease-out group-hover:w-full"></div>
+          <span className="relative flex items-center gap-2">
+            <span className="text-lg">←</span> BACK
+          </span>
+        </button>
         <button
           onClick={next}
           disabled={!data.problem}

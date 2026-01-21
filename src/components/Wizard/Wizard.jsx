@@ -179,7 +179,7 @@ const Wizard = ({ userId }) => {
               </div>
             )}
 
-            {level === 1 && <Level1_Problem data={formData} update={updateData} next={nextLevel} />}
+            {level === 1 && <Level1_Problem data={formData} update={updateData} next={nextLevel} back={prevLevel} />}
             {level === 2 && <Level2_Goal data={formData} update={updateData} next={nextLevel} back={prevLevel} />}
             {level === 3 && <Level2_Stakeholders data={formData} update={updateData} next={nextLevel} back={prevLevel} />}
             {level === 4 && <Level3_Activities data={formData} update={updateData} next={nextLevel} back={prevLevel} />}
