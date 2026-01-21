@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, loginWithGoogle } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { 
+  onAuthStateChanged, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword 
+} from "firebase/auth";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
+  // --- NEW: STATE FOR PASSWORD VISIBILITY ---
+  const [showPassword, setShowPassword] = useState(false);
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -18,31 +26,38 @@ const Login = () => {
     });
     return unsubscribe;
   }, [navigate]);
-  
-  // New state for the Google Mock Modal
-  const [showGoogleModal, setShowGoogleModal] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleAuth = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    // TODO: Implement real Firebase email/password login
-    // For now, simulating login delay
-    setTimeout(() => {
+    try {
+      if (isLogin) {
+        await signInWithEmailAndPassword(auth, email, password);
+      } else {
+        await createUserWithEmailAndPassword(auth, email, password);
+      }
+    } catch (error) {
+      console.error("Auth Error:", error);
+      let msg = error.message;
+      if (error.code === 'auth/user-not-found') msg = "No account found. Please switch to 'Create Account'.";
+      if (error.code === 'auth/wrong-password') msg = "Incorrect password.";
+      if (error.code === 'auth/email-already-in-use') msg = "Email already in use. Please log in.";
+      if (error.code === 'auth/weak-password') msg = "Password should be at least 6 characters.";
+      
+      alert(msg);
+    } finally {
       setLoading(false);
-      navigate("/wizard"); 
-    }, 1500);
+    }
   };
 
-  const handleGoogleSelect = async (selectedEmail) => {
-    setShowGoogleModal(false);
+  const handleGoogleSelect = async () => {
     setLoading(true);
-    
     try {
       await loginWithGoogle();
-      // Navigation happens automatically via useEffect when auth state changes
     } catch (error) {
-      console.error("Google login failed:", error);
+      console.error("Google Login Error:", error);
+      alert("Google Login Failed: " + error.message);
       setLoading(false);
     }
   };
@@ -57,7 +72,7 @@ const Login = () => {
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-purple-600/20 blur-[120px] rounded-full pointer-events-none mix-blend-screen"></div>
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-cyan-600/20 blur-[120px] rounded-full pointer-events-none mix-blend-screen"></div>
 
-      {/* LOGIN CONTAINER - "SECURITY TERMINAL" STYLE */}
+      {/* CONTAINER */}
       <div className="relative z-10 w-full max-w-md p-8 bg-slate-900/60 backdrop-blur-md border border-cyan-500/30 rounded-lg shadow-[0_0_50px_rgba(0,0,0,0.5)] group">
         
         {/* CORNER ACCENTS */}
@@ -71,13 +86,30 @@ const Login = () => {
           <h2 className="text-3xl font-display font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 mb-2">
             ACCESS PROTOCOL
           </h2>
-          <p className="text-xs font-mono text-cyan-500/70 tracking-[0.3em]">/// IDENTITY VERIFICATION REQUIRED ///</p>
+          <p className="text-xs font-mono text-cyan-500/70 tracking-[0.3em]">
+            /// {isLogin ? "IDENTITY VERIFICATION" : "NEW AGENT REGISTRATION"} ///
+          </p>
+        </div>
+
+        {/* TOGGLE BUTTONS */}
+        <div className="flex bg-slate-950/50 p-1 rounded-lg mb-6 border border-slate-700">
+          <button 
+            onClick={() => setIsLogin(true)}
+            className={`flex-1 py-2 text-xs font-mono font-bold tracking-wider rounded transition-all ${isLogin ? 'bg-cyan-900/50 text-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.3)]' : 'text-slate-500 hover:text-slate-300'}`}
+          >
+            LOGIN
+          </button>
+          <button 
+            onClick={() => setIsLogin(false)}
+            className={`flex-1 py-2 text-xs font-mono font-bold tracking-wider rounded transition-all ${!isLogin ? 'bg-purple-900/50 text-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.3)]' : 'text-slate-500 hover:text-slate-300'}`}
+          >
+            CREATE ACCOUNT
+          </button>
         </div>
 
         {/* FORM */}
-        <form onSubmit={handleLogin} className="space-y-6">
+        <form onSubmit={handleAuth} className="space-y-6">
           
-          {/* Email Input */}
           <div className="group/input relative">
             <label className="block text-xs font-mono text-cyan-400 mb-2 ml-1">USER_ID</label>
             <input 
@@ -86,32 +118,61 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-black/50 border border-slate-700 text-cyan-100 px-4 py-3 rounded focus:outline-none focus:border-cyan-500 focus:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all font-mono placeholder-slate-600"
-              placeholder="ENTER CREDENTIALS..."
+              placeholder="ENTER EMAIL..."
             />
           </div>
 
-          {/* Password Input */}
           <div className="group/input relative">
             <label className="block text-xs font-mono text-purple-400 mb-2 ml-1">PASSKEY</label>
-            <input 
-              type="password" 
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-black/50 border border-slate-700 text-purple-100 px-4 py-3 rounded focus:outline-none focus:border-purple-500 focus:shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all font-mono placeholder-slate-600"
-              placeholder="••••••••"
-            />
+            <div className="relative">
+              <input 
+                // 1. Toggle Type Here
+                type={showPassword ? "text" : "password"} 
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-black/50 border border-slate-700 text-purple-100 px-4 py-3 rounded focus:outline-none focus:border-purple-500 focus:shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all font-mono placeholder-slate-600 pr-10"
+                placeholder="••••••••"
+              />
+              {/* 2. Eye Button */}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-500 hover:text-purple-400 transition-colors"
+              >
+                {showPassword ? (
+                  // Eye Slash Icon (Hide)
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                  </svg>
+                ) : (
+                  // Eye Icon (Show)
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                  </svg>
+                )}
+              </button>
+            </div>
           </div>
 
-          {/* SUBMIT BUTTON */}
           <button 
             type="submit" 
             disabled={loading}
-            className="w-full relative overflow-hidden group/btn py-4 bg-cyan-950/30 border border-cyan-500/50 hover:border-cyan-400 transition-all duration-300 mt-2"
+            className={`w-full relative overflow-hidden group/btn py-4 border transition-all duration-300 mt-2 
+              ${isLogin 
+                ? 'bg-cyan-950/30 border-cyan-500/50 hover:border-cyan-400' 
+                : 'bg-purple-950/30 border-purple-500/50 hover:border-purple-400'
+              }`}
           >
-            <div className={`absolute inset-0 bg-cyan-500/20 transform origin-left transition-transform duration-500 ${loading ? 'scale-x-100' : 'scale-x-0 group-hover/btn:scale-x-100'}`}></div>
-            <span className="relative z-10 font-display font-bold tracking-[0.2em] text-cyan-100 group-hover/btn:text-white">
-              {loading ? "AUTHENTICATING..." : "INITIATE LINK"}
+            <div className={`absolute inset-0 transform origin-left transition-transform duration-500 
+              ${isLogin ? 'bg-cyan-500/20' : 'bg-purple-500/20'} 
+              ${loading ? 'scale-x-100' : 'scale-x-0 group-hover/btn:scale-x-100'}`}
+            ></div>
+            <span className={`relative z-10 font-display font-bold tracking-[0.2em] group-hover/btn:text-white
+              ${isLogin ? 'text-cyan-100' : 'text-purple-100'}`}
+            >
+              {loading ? "PROCESSING..." : (isLogin ? "INITIATE LINK" : "REGISTER AGENT")}
             </span>
           </button>
         </form>
@@ -123,9 +184,9 @@ const Login = () => {
           <div className="flex-grow border-t border-slate-700"></div>
         </div>
 
-        {/* GOOGLE BUTTON (Triggers Mock Modal) */}
+        {/* GOOGLE BUTTON */}
         <button 
-          onClick={() => setShowGoogleModal(true)}
+          onClick={handleGoogleSelect}
           type="button"
           disabled={loading}
           className="w-full flex items-center justify-center gap-3 py-3 bg-white text-black font-bold font-sans rounded hover:bg-slate-200 transition-all duration-300 border border-transparent hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]"
@@ -136,75 +197,7 @@ const Login = () => {
            <span>Continue with Google</span>
         </button>
 
-        {/* FOOTER */}
-        <div className="mt-8 text-center">
-          <p className="text-[10px] font-mono text-slate-500">
-            SECURE CONNECTION ESTABLISHED • ENCRYPTION: AES-256
-          </p>
-        </div>
       </div>
-
-      {/* === GOOGLE ACCOUNT SELECTOR MODAL (Simulated) === */}
-      {showGoogleModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-sm bg-[#1a1a2e] border border-slate-600 rounded-lg shadow-2xl overflow-hidden transform transition-all scale-100">
-            {/* Modal Header */}
-            <div className="p-4 border-b border-slate-700 flex justify-between items-center bg-slate-900">
-              <span className="text-white font-sans font-medium">Choose an account</span>
-              <button onClick={() => setShowGoogleModal(false)} className="text-slate-400 hover:text-white">✕</button>
-            </div>
-            
-            {/* Account List */}
-            <div className="p-2">
-              <div 
-                onClick={() => handleGoogleSelect("alex.hembrom@sutra.ai")}
-                className="flex items-center gap-4 p-4 hover:bg-slate-800 cursor-pointer rounded-md transition-colors border-b border-slate-800/50"
-              >
-                <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold text-lg">A</div>
-                <div className="flex flex-col">
-                  <span className="text-sm font-semibold text-white">Alex Hembrom</span>
-                  <span className="text-xs text-slate-400">alex.hembrom@sutra.ai</span>
-                </div>
-              </div>
-
-              <div 
-                onClick={() => handleGoogleSelect("guest.user@gmail.com")}
-                className="flex items-center gap-4 p-4 hover:bg-slate-800 cursor-pointer rounded-md transition-colors"
-              >
-                 <div className="w-10 h-10 rounded-full bg-cyan-600 flex items-center justify-center text-white font-bold text-lg">G</div>
-                <div className="flex flex-col">
-                  <span className="text-sm font-semibold text-white">Guest User</span>
-                  <span className="text-xs text-slate-400">guest.user@gmail.com</span>
-                </div>
-              </div>
-              
-              <div 
-                 className="flex items-center gap-4 p-4 hover:bg-slate-800 cursor-pointer rounded-md transition-colors border-t border-slate-700 mt-1"
-              >
-                <div className="w-10 h-10 rounded-full border border-slate-500 flex items-center justify-center text-slate-400">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                </div>
-                <span className="text-sm font-medium text-slate-300">Use another account</span>
-              </div>
-            </div>
-
-            {/* Modal Footer */}
-            <div className="p-4 border-t border-slate-700 bg-slate-900/50 text-center">
-              <p className="text-[10px] text-slate-500">
-                To continue, Google will share your name, email address, and language preference with Sutra.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <style>{`
-        @keyframes fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        .animate-fade-in { animation: fade-in 0.2s ease-out forwards; }
-      `}</style>
     </div>
   );
 };

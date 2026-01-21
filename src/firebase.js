@@ -5,8 +5,9 @@ import {
   getAuth, 
   GoogleAuthProvider, 
   signInWithPopup, 
+  signInWithEmailAndPassword, // <--- 1. Added this import
   signOut 
-} from "firebase/auth"; // <--- Added these imports
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA7Sc414opnaQ6ohBCdLh_VMkDsIn8T6p4",
@@ -22,7 +23,10 @@ export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 
-// 👇 THIS WAS MISSING. ADD THIS PART 👇
+// --- 2. EXPORT THESE FUNCTIONS SO LOGIN.JSX CAN USE THEM ---
+export { signInWithPopup, signInWithEmailAndPassword, signOut };
+
+// Helper function (Optional, kept for safety)
 export const loginWithGoogle = async () => {
   try {
     await signInWithPopup(auth, googleProvider);

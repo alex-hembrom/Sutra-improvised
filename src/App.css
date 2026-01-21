@@ -19,12 +19,8 @@
 }
 
 @keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -42,47 +38,27 @@
 }
 
 /* =========================================
-   NEW: PRINT OPTIMIZATION (For Blueprints)
+   SAFE PRINT STYLES
    ========================================= */
 @media print {
-  /* 1. Force White Background & Black Text */
-  body, #root, .min-h-screen, .bg-\[\#050510\], div {
+  body {
     background-color: white !important;
-    background-image: none !important;
     color: black !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    max-width: none !important;
+  }
+  
+  /* Hide the dark dashboard background */
+  .min-h-screen {
+    background: white !important;
   }
 
-  /* 2. Hide Cyberpunk Visuals (Glows, Grids, Animations) */
-  .animate-grid-scroll, 
-  .animate-pulse, 
-  .animate-crt-turn-on,
-  .bg-purple-600\/25,
-  .bg-blue-600\/25,
-  .bg-slate-900\/90,
-  .backdrop-blur-xl {
-    display: none !important;
-    background: none !important;
-    box-shadow: none !important;
-  }
-
-  /* 3. Ensure Text is Readable */
-  p, h1, h2, h3, h4, span, li, td, th {
-    color: #000 !important;
+  /* Force text to be black */
+  p, h1, h2, h3, h4, span, div, li, td, th {
+    color: black !important;
     text-shadow: none !important;
-    -webkit-text-fill-color: black !important; /* Overrides gradients */
   }
 
-  /* 4. Hide Navigation & Buttons */
-  nav, button, .confetti {
+  /* Hide navigation and buttons */
+  nav, button {
     display: none !important;
-  }
-
-  /* 5. Fix Layout for Paper */
-  .relative {
-    position: static !important;
   }
 }
