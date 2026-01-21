@@ -129,12 +129,13 @@ const Level4_Review = ({ data, back }) => {
         </button>
       </div>
 
+      {/* ⚠️ THIS STYLE TAG IS CRITICAL FOR FIXING THE PDF ⚠️ */}
       <style>{`
         @media print {
-          /* Force page background to white */
+          /* 1. Force white background everywhere */
           body, #root, .min-h-screen, .animate-fade-in {
             background-color: white !important;
-            background: white !important;
+            background-image: none !important;
             color: black !important;
             margin: 0 !important;
             padding: 0 !important;
@@ -142,29 +143,32 @@ const Level4_Review = ({ data, back }) => {
             overflow: visible !important;
           }
 
-          /* Hide all UI elements except the document */
+          /* 2. Hide HUD, Navigation, Confetti */
           nav, button, .confetti, .print\\:hidden {
             display: none !important;
           }
 
-          /* Ensure the document wrapper is visible and full width */
+          /* 3. Reset the document container */
           div[class*="bg-white"] {
             box-shadow: none !important;
             max-width: 100% !important;
             margin: 0 !important;
-            padding: 20px !important;
+            padding: 0 !important;
+            overflow: visible !important;
+            border-radius: 0 !important;
           }
 
-          /* Force text colors to be dark */
+          /* 4. Force text colors to black */
           p, h1, h2, h3, h4, span, div, td, th {
             color: #000 !important;
             text-shadow: none !important;
+            -webkit-text-fill-color: black !important;
           }
 
-          /* Specific overrides for the Logic Map */
+          /* 5. Fix Logic Map Borders */
           .bg-slate-50, .bg-red-50, .bg-blue-50, .bg-green-50 {
             background-color: white !important;
-            border: 1px solid #ddd !important;
+            border: 1px solid #ccc !important;
           }
         }
       `}</style>
