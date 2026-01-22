@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import heroRobot from "../assets/hero-robot.png";
-import cloudFloor from "../assets/cloud-floor.png"; // Import the cloud image
+// Note: We don't import cloudFloor here anymore as it's handled globally in index.css
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -47,22 +47,9 @@ const LandingPage = () => {
   }
 
   return (
-    // OUTER CONTAINER (Relative wrapper)
-    <div className="min-h-screen bg-[#050510] flex flex-col relative overflow-x-hidden no-scrollbar font-sans text-white selection:bg-cyan-500/30 animate-crt-turn-on pt-24">
+    // Outer Container (Background handled by index.css body)
+    <div className="min-h-screen flex flex-col relative overflow-x-hidden no-scrollbar font-sans text-white selection:bg-cyan-500/30 animate-crt-turn-on pt-24">
       
-      {/* 1. REPLACED GRID WITH CLOUD IMAGE HERE 
-          This is the "outer container" background layer.
-      */}
-      <div className="absolute inset-0 z-0">
-        <img 
-          src={cloudFloor} 
-          alt="Cloud Background" 
-          className="w-full h-full object-cover opacity-60" 
-        />
-        {/* Optional dark overlay to ensure text is readable on top of clouds */}
-        <div className="absolute inset-0 bg-[#050510]/60 mix-blend-multiply"></div>
-      </div>
-
       {/* HUD OVERLAY */}
       <div className="fixed inset-0 pointer-events-none z-40 p-6 hidden md:block">
         <div className="absolute top-24 left-6 border-l-2 border-t-2 border-cyan-500/50 w-32 h-32 rounded-tl-3xl opacity-60"></div>
@@ -83,8 +70,9 @@ const LandingPage = () => {
         <div className="w-[800px] h-[800px] bg-blue-600/25 blur-[150px] rounded-full translate-x-1/2 translate-y-1/2 mix-blend-screen animate-pulse-slow" style={{animationDelay: '1s'}}></div>
       </div>
 
-      {/* MIDDLE CONTAINER (Content) */}
-      <div className="flex-1 w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative z-10 px-6 md:px-12 mt-10 mb-20">
+      {/* === MIDDLE CONTAINER (Content) WITH GLASS EFFECT === */}
+      {/* Added: bg-slate-900/30 backdrop-blur-md border border-white/10 rounded-3xl shadow-2xl p-8 md:p-12 */}
+      <div className="flex-1 w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative z-10 px-6 md:px-12 mt-10 mb-20 bg-slate-900/30 backdrop-blur-md border border-white/10 rounded-3xl shadow-2xl p-8 md:p-12">
         
         {/* LEFT COLUMN: TEXT CONTENT */}
         <div className="flex flex-col items-start justify-center text-left order-2 md:order-1">
@@ -237,16 +225,11 @@ const LandingPage = () => {
           50% { transform: scaleY(0.02) scaleX(1); opacity: 1; filter: brightness(5); }
           100% { transform: scaleY(1) scaleX(1); opacity: 1; filter: brightness(1); }
         }
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
         .animate-scan { animation: scan 1.5s linear infinite; }
         .animate-glitch-1 { animation: glitch-1 2.5s infinite linear alternate-reverse; }
         .animate-glitch-2 { animation: glitch-2 3s infinite linear alternate-reverse; }
         .animate-blink { animation: blink 1s step-end infinite; }
         .animate-crt-turn-on { animation: crt-turn-on 0.2s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
-        .animate-float { animation: float 6s ease-in-out infinite; }
       `}</style>
     </div>
   );
