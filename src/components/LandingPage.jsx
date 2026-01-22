@@ -51,9 +51,9 @@ const LandingPage = () => {
       {/* Background grid */}
       <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(0,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px] animate-grid-scroll opacity-70"></div>
 
-      {/* Subtle animated gradient overlay */}
+      {/* Subtle animated gradient overlay (enhanced) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 subtle-gradient opacity-40"></div>
+        <div className="absolute inset-0 subtle-gradient opacity-60"></div>
       </div>
 
       {/* Hero section (side-by-side) */}
@@ -388,17 +388,27 @@ const LandingPage = () => {
         .animate-blink { animation: blink 1s step-end infinite; }
         .animate-crt-turn-on { animation: crt-turn-on 0.2s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
 
-        /* Subtle animated page gradient (replaces heavy particles) */
+        /* Subtle animated page gradient (layered, slightly stronger) */
         .subtle-gradient {
-          background: linear-gradient(120deg, rgba(99,102,241,0.12), rgba(236,72,153,0.06), rgba(56,189,248,0.06));
-          background-size: 200% 200%;
-          animation: subtle-pan 12s ease-in-out infinite alternate;
-          filter: blur(24px);
+          background:
+            radial-gradient(ellipse at 10% 20%, rgba(6,182,212,0.10) 0%, rgba(6,182,212,0.00) 30%),
+            radial-gradient(ellipse at 90% 80%, rgba(168,85,247,0.08) 0%, rgba(168,85,247,0.00) 35%),
+            linear-gradient(120deg, rgba(99,102,241,0.18), rgba(236,72,153,0.10), rgba(56,189,248,0.10));
+          background-size: 220% 220%, 220% 220%, 200% 200%;
+          background-blend-mode: screen, screen, normal;
+          animation: subtle-pan 16s ease-in-out infinite alternate, subtle-scale 10s ease-in-out infinite alternate;
+          filter: blur(20px);
+          transform: translateZ(0);
         }
 
         @keyframes subtle-pan {
-          0% { background-position: 0% 50%; }
-          100% { background-position: 100% 50%; }
+          0% { background-position: 0% 40%, 100% 60%, 0% 50%; }
+          100% { background-position: 100% 60%, 0% 40%, 100% 50%; }
+        }
+
+        @keyframes subtle-scale {
+          0% { transform: scale(1); }
+          100% { transform: scale(1.02); }
         }
       `}</style>
     </div>
