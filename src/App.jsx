@@ -32,7 +32,11 @@ function App() {
 
   return (
     <Router>
-      <div className="App bg-[#050510] min-h-screen text-white pt-24">
+      <div className="App w-full min-h-screen text-white pt-24" style={{
+        background: 'linear-gradient(135deg, #050510 0%, #0a1520 50%, #050510 100%)',
+        backgroundAttachment: 'fixed',
+        animation: 'color-wave 12s ease-in-out infinite'
+      }}>
         {/* Header is here, so it appears on ALL pages */}
         <DashboardHeader />
         

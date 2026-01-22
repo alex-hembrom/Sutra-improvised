@@ -49,40 +49,40 @@ const LandingPage = () => {
   }
 
   return (
-    // Added 'no-scrollbar' class here to hide the bar
-    <div className="min-h-screen bg-[#050510] flex flex-col relative overflow-x-hidden no-scrollbar font-sans text-white selection:bg-cyan-500/30 animate-crt-turn-on pt-24">
+    // Scrollable content without scrollbar
+    <div className="w-full flex flex-col relative font-sans text-white selection:bg-cyan-500/30 animate-crt-turn-on scrollbar-hide">
       
       {/* HUD OVERLAY */}
-      <div className="fixed inset-0 pointer-events-none z-40 p-6 hidden md:block">
-        <div className="absolute top-24 left-6 border-l-2 border-t-2 border-cyan-500/50 w-32 h-32 rounded-tl-3xl opacity-60"></div>
-        <div className="absolute top-28 left-10 font-mono text-xs text-cyan-400">
+      <div className="fixed inset-0 pointer-events-none z-40 p-4 sm:p-6 hidden md:block">
+        <div className="absolute top-24 left-4 sm:left-6 border-l-2 border-t-2 border-cyan-500/50 w-16 h-16 sm:w-32 sm:h-32 rounded-tl-3xl opacity-60"></div>
+        <div className="absolute top-28 left-8 sm:left-10 font-mono text-xs text-cyan-400">
           <div>SYS.STATUS: <span className="text-green-400 animate-pulse">ONLINE</span></div>
           <div>LOC: 22.88.11</div>
         </div>
-        <div className="absolute bottom-6 left-6 border-l-2 border-b-2 border-cyan-500/50 w-32 h-32 rounded-bl-3xl opacity-60"></div>
-        <div className="absolute bottom-8 left-10 font-mono text-xs text-cyan-400 opacity-50">/// SUTRA.OS.VER.2.0 ///</div>
-        <div className="absolute bottom-6 right-6 border-r-2 border-b-2 border-purple-500/50 w-32 h-32 rounded-br-3xl opacity-60"></div>
+        <div className="absolute bottom-6 left-4 sm:left-6 border-l-2 border-b-2 border-cyan-500/50 w-16 h-16 sm:w-32 sm:h-32 rounded-bl-3xl opacity-60"></div>
+        <div className="absolute bottom-8 left-8 sm:left-10 font-mono text-xs text-cyan-400 opacity-50">/// SUTRA.OS.VER.2.0 ///</div>
+        <div className="absolute bottom-6 right-4 sm:right-6 border-r-2 border-b-2 border-purple-500/50 w-16 h-16 sm:w-32 sm:h-32 rounded-br-3xl opacity-60"></div>
       </div>
 
       {/* CORNER GLOWS */}
       <div className="absolute top-0 left-0 z-0 pointer-events-none">
-        <div className="w-[800px] h-[800px] bg-purple-600/25 blur-[150px] rounded-full -translate-x-1/2 -translate-y-1/2 mix-blend-screen animate-pulse-slow"></div>
+        <div className="w-[400px] sm:w-[600px] md:w-[800px] h-[400px] sm:h-[600px] md:h-[800px] bg-purple-600/25 blur-[100px] sm:blur-[120px] md:blur-[150px] rounded-full -translate-x-1/2 -translate-y-1/2 mix-blend-screen animate-pulse-slow"></div>
       </div>
       <div className="absolute bottom-0 right-0 z-0 pointer-events-none">
-        <div className="w-[800px] h-[800px] bg-blue-600/25 blur-[150px] rounded-full translate-x-1/2 translate-y-1/2 mix-blend-screen animate-pulse-slow" style={{animationDelay: '1s'}}></div>
+        <div className="w-[400px] sm:w-[600px] md:w-[800px] h-[400px] sm:h-[600px] md:h-[800px] bg-blue-600/25 blur-[100px] sm:blur-[120px] md:blur-[150px] rounded-full translate-x-1/2 translate-y-1/2 mix-blend-screen animate-pulse-slow" style={{animationDelay: '1s'}}></div>
       </div>
 
       {/* BACKGROUND GRID */}
       <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(0,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px] animate-grid-scroll opacity-70"></div>
 
       {/* HERO SECTION - Side-by-Side Layout */}
-      <div className="flex-1 w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between relative z-10 px-4 mt-10 gap-10">
+      <div className="flex-1 w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between relative z-10 px-4 sm:px-6 md:px-8 mt-8 sm:mt-10 md:mt-10 gap-6 md:gap-10">
         
         {/* LEFT SIDE: TEXT CONTENT */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left flex-1 md:pl-8">
-          <div className="relative mb-6 group">
+          <div className="relative mb-4 sm:mb-6 group w-full">
             {/* UPDATED SUTRA TEXT COLOR: Cyan to Purple Gradient */}
-            <h1 className="text-7xl md:text-9xl font-thin tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-cyan-400 via-white to-purple-500 relative z-10" 
+            <h1 className="text-5xl sm:text-7xl md:text-9xl font-thin tracking-tighter text-transparent bg-clip-text bg-linear-to-b from-cyan-400 via-white to-purple-500 relative z-10 w-full" 
                 style={{
                   fontFamily: 'Samarkan, sans-serif', 
                   textShadow: '0 0 30px rgba(6,182,212,0.6), 0 0 60px rgba(168,85,247,0.5), 0 0 90px rgba(6,182,212,0.3)', 
@@ -91,39 +91,39 @@ const LandingPage = () => {
                 }}>
               SUTRA
             </h1>
-            <h1 className="absolute top-0 left-0 text-7xl md:text-9xl tracking-tighter text-cyan-300 opacity-0 group-hover:opacity-50 animate-glitch-1" style={{fontFamily: 'Samarkan, sans-serif', letterSpacing: '-2px', fontWeight: 300}} aria-hidden="true">SUTRA</h1>
-            <h1 className="absolute top-0 left-0 text-7xl md:text-9xl tracking-tighter text-purple-300 opacity-0 group-hover:opacity-50 animate-glitch-2" style={{fontFamily: 'Samarkan, sans-serif', letterSpacing: '-2px', fontWeight: 300}} aria-hidden="true">SUTRA</h1>
+            <h1 className="absolute top-0 left-0 text-5xl sm:text-7xl md:text-9xl tracking-tighter text-cyan-300 opacity-0 group-hover:opacity-50 animate-glitch-1 w-full" style={{fontFamily: 'Samarkan, sans-serif', letterSpacing: '-2px', fontWeight: 300}} aria-hidden="true">SUTRA</h1>
+            <h1 className="absolute top-0 left-0 text-5xl sm:text-7xl md:text-9xl tracking-tighter text-purple-300 opacity-0 group-hover:opacity-50 animate-glitch-2 w-full" style={{fontFamily: 'Samarkan, sans-serif', letterSpacing: '-2px', fontWeight: 300}} aria-hidden="true">SUTRA</h1>
           </div>
           
-          <p className="text-cyan-500 font-mono text-xs md:text-sm tracking-[0.5em] mb-16 uppercase border-y border-cyan-500/30 py-2 w-full max-w-lg bg-cyan-950/20 backdrop-blur-md">
+          <p className="text-cyan-500 font-mono text-[10px] sm:text-xs md:text-sm tracking-[0.3em] sm:tracking-[0.4em] md:tracking-[0.5em] mb-8 sm:mb-12 md:mb-16 uppercase border-y border-cyan-500/30 py-2 sm:py-2 w-full max-w-xs sm:max-w-sm md:max-w-lg bg-cyan-950/20 backdrop-blur-md px-2 sm:px-4">
             /// ARCHITECTING EDUCATIONAL INTELLIGENCE ///
           </p>
 
-          <div className="relative group mb-16">
-            <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+          <div className="relative group mb-8 sm:mb-12 md:mb-16 w-full flex justify-center md:justify-start">
+            <div className="absolute inset-px bg-linear-to-r from-cyan-400 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" style={{inset: '2px'}}></div>
             <button 
               onClick={() => navigate("/login")}
-              className="relative w-64 h-16 bg-black border border-cyan-500/50 flex items-center justify-center gap-4 overflow-hidden hover:border-cyan-400 transition-all group-hover:w-72"
+              className="relative w-52 sm:w-60 md:w-64 h-12 sm:h-14 md:h-16 bg-black border border-cyan-500/50 flex items-center justify-center gap-3 sm:gap-4 overflow-hidden hover:border-cyan-400 transition-all group-hover:w-60 sm:group-hover:w-72 md:group-hover:w-80"
               style={{clipPath: 'polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)'}}
             >
               <div className="absolute inset-0 bg-cyan-900/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-              <span className="font-display font-bold text-xl tracking-widest text-white z-10">INITIATE</span>
-              <div className="w-3 h-3 bg-cyan-400 rotate-45 animate-pulse z-10"></div>
+              <span className="font-display font-bold text-base sm:text-lg md:text-xl tracking-widest text-white z-10 whitespace-nowrap">INITIATE</span>
+              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-cyan-400 rotate-45 animate-pulse z-10"></div>
             </button>
           </div>
         </div>
 
         {/* RIGHT SIDE: ROBOT IMAGE + GLOW */}
-        <div className="flex-1 flex justify-center items-center relative mt-12 md:mt-0">
+        <div className="flex-1 flex justify-center items-center relative mt-8 md:mt-0 w-full">
            {/* GLOW EFFECT */}
-           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[700px] md:h-[700px] bg-cyan-500/20 blur-[100px] rounded-full animate-pulse-slow"></div>
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] md:w-[700px] h-[300px] sm:h-[500px] md:h-[700px] bg-cyan-500/20 blur-[80px] sm:blur-[100px] md:blur-[100px] rounded-full animate-pulse-slow"></div>
            
            {/* ROBOT IMAGE WITH FLOAT ANIMATION WRAPPER */}
-           <div className="animate-float z-10 relative">
+           <div className="animate-float z-10 relative w-full">
              <img 
                src={roboReading} 
                alt="Sutra Assistant" 
-               className="w-full max-w-xl md:max-w-2xl h-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+               className="w-full max-w-xs sm:max-w-lg md:max-w-2xl h-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500"
              />
            </div>
         </div>
@@ -131,54 +131,54 @@ const LandingPage = () => {
       </div>
 
       {/* FEATURES CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full px-4 mb-20 mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-6xl w-full px-4 sm:px-6 md:px-8 mb-16 sm:mb-20 md:mb-20 mx-auto">
         {[
           { title: "LOGIC CORE", icon: "❖", desc: "Advanced node-based logic construction." },
           { title: "AUTO-LFA", icon: "⚡", desc: "Instantaneous ISO-standard generation." },
           { title: "IMPACT SYNC", icon: "◈", desc: "Real-time mission alignment protocols." }
         ].map((feature, idx) => (
-          <div key={idx} className="group relative p-8 bg-slate-900/40 border border-white/10 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-2 overflow-hidden backdrop-blur-sm">
-            <div className="text-5xl mb-4 text-slate-700 group-hover:text-cyan-400 transition-colors font-display">{feature.icon}</div>
-            <h3 className="text-xl font-bold font-display text-white mb-2 group-hover:text-cyan-300">{feature.title}</h3>
-            <p className="text-sm font-mono text-slate-400 group-hover:text-slate-300">{feature.desc}</p>
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent translate-y-[-100%] group-hover:animate-scan"></div>
+          <div key={idx} className="group relative p-4 sm:p-6 md:p-8 bg-transparent border border-white/10 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-2 overflow-hidden backdrop-blur-sm">
+            <div className="text-4xl sm:text-5xl mb-3 sm:mb-4 text-slate-700 group-hover:text-cyan-400 transition-colors font-display">{feature.icon}</div>
+            <h3 className="text-base sm:text-lg md:text-xl font-bold font-display text-white mb-2 group-hover:text-cyan-300">{feature.title}</h3>
+            <p className="text-xs sm:text-sm font-mono text-slate-400 group-hover:text-slate-300">{feature.desc}</p>
+            <div className="absolute inset-0 bg-linear-to-b from-transparent via-cyan-400/10 to-transparent -translate-y-full group-hover:animate-scan"></div>
           </div>
         ))}
       </div>
 
       {/* === SECTION 1: PROBLEM STATEMENT (MODIFIED LAYOUT) === */}
-      <div id="problem-statement" className="w-full max-w-7xl px-4 mb-32 relative z-10 mx-auto">
-        <div className="flex flex-col md:flex-row items-center gap-10">
+      <div id="problem-statement" className="w-full max-w-7xl px-4 sm:px-6 md:px-8 mb-20 sm:mb-24 md:mb-32 relative z-10 mx-auto">
+        <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
           
           {/* LEFT: ROBO THINKING */}
-          <div className="flex-1 flex justify-center items-center relative order-2 md:order-1">
+          <div className="flex-1 flex justify-center items-center relative order-2 md:order-1 w-full">
             {/* RED GLOW for Problem Section */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-red-600/20 blur-[80px] rounded-full animate-pulse-slow"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] sm:w-[300px] md:w-[400px] h-[250px] sm:h-[300px] md:h-[400px] bg-red-600/20 blur-[60px] sm:blur-[80px] md:blur-[80px] rounded-full animate-pulse-slow"></div>
             {/* FLOAT WRAPPER with DELAY */}
             <div className="animate-float z-10 relative" style={{ animationDelay: '1s' }}>
               <img 
                 src={roboThinking} 
                 alt="Analyzing Problem" 
-                className="w-full max-w-sm md:max-w-md drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+                className="w-full max-w-xs sm:max-w-sm md:max-w-md drop-shadow-2xl hover:scale-105 transition-transform duration-500"
               />
             </div>
           </div>
 
           {/* RIGHT: PROBLEM TEXT BOX */}
-          <div className="flex-1 order-1 md:order-2">
-            <div className="bg-slate-900/60 border-l-4 border-red-500 p-8 md:p-12 relative overflow-hidden backdrop-blur-md rounded-r-xl">
+          <div className="flex-1 order-1 md:order-2 w-full">
+            <div className="bg-transparent border-l-4 border-red-500 p-6 sm:p-8 md:p-12 relative overflow-hidden backdrop-blur-md rounded-r-xl">
               {/* Background Data effect */}
-              <div className="absolute right-0 top-0 text-[10rem] font-black text-red-500/5 z-0 pointer-events-none font-display">ERROR</div>
+              <div className="absolute right-0 top-0 text-[8rem] sm:text-[10rem] md:text-[12rem] font-black text-red-500/5 z-0 pointer-events-none font-display">ERROR</div>
               
               <div className="relative z-10">
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-red-400 mb-6 flex items-center gap-4">
-                  <span className="animate-pulse">⚠️</span> PROBLEM STATEMENT
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-red-400 mb-4 sm:mb-6 flex items-center gap-3 sm:gap-4">
+                  <span className="animate-pulse text-lg sm:text-2xl">⚠️</span> PROBLEM STATEMENT
                 </h2>
-                <p className="text-slate-300 font-mono leading-relaxed text-sm md:text-base text-justify">
+                <p className="text-slate-300 font-mono leading-relaxed text-xs sm:text-sm md:text-base text-justify">
                   Many organisations (NGOs/CSOs) working in education struggle to clearly design their programs before starting or scaling their work. They often know what they want to improve, but find it difficult to clearly define the problem, identify the right stakeholders, decide what needs to change in day-to-day practice, and understand how those changes will be measured. 
-                  <br /><br />
+                  <br /><br className="hidden sm:block" />
                   As a result, program design becomes slow, dependent on experts, and expensive. What organisations need right now is a simple, guided way to think through these questions step by step. This can be translated into a digital or gamified platform that helps organisations move from idea to action by clearly walking them through a checklist: define the problem, identify the student-level change, decide the approach, map key stakeholders, specify expected practice changes, and choose simple indicators to track progress.
-                  <br /><br />
+                  <br /><br className="hidden sm:block" />
                   <span className="text-red-300 border-b border-red-500/30 pb-1">The task is to build a gamified tool that makes this process easy to follow, practical to use, and accessible to teams without technical or design expertise.</span>
                 </p>
               </div>
@@ -189,45 +189,45 @@ const LandingPage = () => {
       </div>
 
       {/* === SECTION 2: SOLUTION (MODIFIED LAYOUT) === */}
-      <div id="solution" className="w-full max-w-7xl px-4 mb-32 relative z-10 mx-auto">
-        <div className="flex flex-col md:flex-row items-center gap-10">
+      <div id="solution" className="w-full max-w-7xl px-4 sm:px-6 md:px-8 mb-20 sm:mb-24 md:mb-32 relative z-10 mx-auto">
+        <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
 
           {/* LEFT: SOLUTION TEXT BOX */}
-          <div className="flex-1">
-            <div className="bg-slate-900/60 border-r-4 border-cyan-500 p-8 md:p-12 relative overflow-hidden backdrop-blur-md text-right rounded-l-xl">
+          <div className="flex-1 w-full">
+            <div className="bg-transparent border-r-4 border-cyan-500 p-6 sm:p-8 md:p-12 relative overflow-hidden backdrop-blur-md text-right rounded-l-xl">
                {/* Background Data effect */}
-               <div className="absolute left-0 top-0 text-[10rem] font-black text-cyan-500/5 z-0 pointer-events-none font-display">SOLVED</div>
+               <div className="absolute left-0 top-0 text-[8rem] sm:text-[10rem] md:text-[12rem] font-black text-cyan-500/5 z-0 pointer-events-none font-display">SOLVED</div>
 
                <div className="relative z-10">
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-cyan-400 mb-6 flex items-center justify-end gap-4">
-                  SYSTEM SOLUTION <span className="animate-pulse">⚡</span> 
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-cyan-400 mb-4 sm:mb-6 flex items-center justify-end gap-3 sm:gap-4">
+                  SYSTEM SOLUTION <span className="animate-pulse text-lg sm:text-2xl">⚡</span> 
                 </h2>
-                <p className="text-slate-300 font-mono leading-relaxed text-sm md:text-base text-justify" style={{ direction: "rtl", textAlign: "left" }}>
+                <p className="text-slate-300 font-mono leading-relaxed text-xs sm:text-sm md:text-base text-justify" style={{ direction: "rtl", textAlign: "left" }}>
                   SUTRA acts as a digital architect for social change. By transforming the complex Logical Framework Approach into a gamified "Mission Control" interface, we empower non-technical teams to build rigorous program designs without needing external experts. 
-                  <br /><br />
+                  <br /><br className="hidden sm:block" />
                   Our system guides users through a "Phase-based" journey—from diagnosing the root problem to mapping stakeholders and selecting indicators—using AI-driven prompts and visual logic maps. This ensures that every NGO, regardless of size, can create a funder-ready impact strategy in minutes, not months. We bridge the gap between "Idea" and "Execution" with zero technical friction.
                 </p>
                 
                 {/* Decorative Tech Specs */}
-                <div className="flex justify-end gap-4 mt-8 font-mono text-xs text-cyan-600">
-                  <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30">AI_ASSIST: ACTIVE</span>
-                  <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30">LFA_ENGINE: V.2.0</span>
-                  <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30">USER_FRIENDLY: 100%</span>
+                <div className="flex flex-wrap justify-end gap-2 sm:gap-4 mt-6 sm:mt-8 font-mono text-[10px] sm:text-xs text-cyan-600">
+                  <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30 whitespace-nowrap">AI_ASSIST: ACTIVE</span>
+                  <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30 whitespace-nowrap">LFA_ENGINE: V.2.0</span>
+                  <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30 whitespace-nowrap">USER_FRIENDLY: 100%</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* RIGHT: ROBO BLINKING */}
-          <div className="flex-1 flex justify-center items-center relative">
+          <div className="flex-1 flex justify-center items-center relative w-full">
             {/* CYAN GLOW for Solution Section */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-cyan-500/20 blur-[80px] rounded-full animate-pulse-slow"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] sm:w-[300px] md:w-[400px] h-[250px] sm:h-[300px] md:h-[400px] bg-cyan-500/20 blur-[60px] sm:blur-[80px] md:blur-[80px] rounded-full animate-pulse-slow"></div>
             {/* FLOAT WRAPPER with DELAY */}
             <div className="animate-float z-10 relative" style={{ animationDelay: '2s' }}>
               <img 
                 src={roboBlinking} 
                 alt="Solution Found" 
-                className="w-full max-w-sm md:max-w-md drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+                className="w-full max-w-xs sm:max-w-sm md:max-w-md drop-shadow-2xl hover:scale-105 transition-transform duration-500"
               />
             </div>
           </div>

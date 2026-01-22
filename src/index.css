@@ -15,18 +15,60 @@
   --font-title: "Samarkan", sans-serif;
 }
 
-/* 2. THE CYBER GRID BACKGROUND (Moving Animation) */
+/* 2. SCROLLBAR HIDDEN */
+html {
+  width: 100%;
+  height: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background: linear-gradient(135deg, #050510 0%, #0a1520 50%, #050510 100%);
+  background-attachment: fixed;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
 body {
-  background-color: #050510;
-  background-image: 
-    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  background-position: center top;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
   color: white;
   font-family: var(--font-body);
   overflow-x: hidden;
-  animation: scrollGrid 20s linear infinite;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background: linear-gradient(135deg, #050510 0%, #0a1520 50%, #050510 100%);
+  background-attachment: fixed;
+  background-color: #050510;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Hide scrollbar for all elements */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ensure no visible scroll containers */
+*::-webkit-scrollbar {
+  display: none;
 }
 
 /* Move the grid slowly to create depth */
