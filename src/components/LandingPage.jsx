@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import heroRobot from "../assets/hero-robot.png";
+import cloudFloor from "../assets/cloud-floor.png"; // Import the cloud image
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -45,9 +47,22 @@ const LandingPage = () => {
   }
 
   return (
-    // FIX: Added 'no-scrollbar' class here to hide the bar
+    // OUTER CONTAINER (Relative wrapper)
     <div className="min-h-screen bg-[#050510] flex flex-col relative overflow-x-hidden no-scrollbar font-sans text-white selection:bg-cyan-500/30 animate-crt-turn-on pt-24">
       
+      {/* 1. REPLACED GRID WITH CLOUD IMAGE HERE 
+          This is the "outer container" background layer.
+      */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src={cloudFloor} 
+          alt="Cloud Background" 
+          className="w-full h-full object-cover opacity-60" 
+        />
+        {/* Optional dark overlay to ensure text is readable on top of clouds */}
+        <div className="absolute inset-0 bg-[#050510]/60 mix-blend-multiply"></div>
+      </div>
+
       {/* HUD OVERLAY */}
       <div className="fixed inset-0 pointer-events-none z-40 p-6 hidden md:block">
         <div className="absolute top-24 left-6 border-l-2 border-t-2 border-cyan-500/50 w-32 h-32 rounded-tl-3xl opacity-60"></div>
@@ -68,39 +83,56 @@ const LandingPage = () => {
         <div className="w-[800px] h-[800px] bg-blue-600/25 blur-[150px] rounded-full translate-x-1/2 translate-y-1/2 mix-blend-screen animate-pulse-slow" style={{animationDelay: '1s'}}></div>
       </div>
 
-      {/* BACKGROUND GRID */}
-      <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(0,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px] animate-grid-scroll opacity-70"></div>
-
-      {/* HERO SECTION */}
-      <div className="flex-1 flex flex-col items-center justify-center relative z-10 px-4 mt-10">
-        <div className="relative mb-6 group">
-          <h1 className="text-7xl md:text-9xl font-thin text-center tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-cyan-100 via-white to-cyan-200 relative z-10" 
-              style={{fontFamily: 'Samarkan, sans-serif', textShadow: '0 0 30px rgba(6,182,212,0.8), 0 0 60px rgba(34,211,238,0.6), 0 0 90px rgba(6,182,212,0.4)', letterSpacing: '-2px', fontWeight: 300}}>
-            SUTRA
-          </h1>
-          <h1 className="absolute top-0 left-0 text-7xl md:text-9xl text-center tracking-tighter text-cyan-300 opacity-0 group-hover:opacity-50 animate-glitch-1" style={{fontFamily: 'Samarkan, sans-serif', letterSpacing: '-2px', fontWeight: 300}} aria-hidden="true">SUTRA</h1>
-          <h1 className="absolute top-0 left-0 text-7xl md:text-9xl text-center tracking-tighter text-purple-300 opacity-0 group-hover:opacity-50 animate-glitch-2" style={{fontFamily: 'Samarkan, sans-serif', letterSpacing: '-2px', fontWeight: 300}} aria-hidden="true">SUTRA</h1>
-        </div>
+      {/* MIDDLE CONTAINER (Content) */}
+      <div className="flex-1 w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative z-10 px-6 md:px-12 mt-10 mb-20">
         
-        <p className="text-cyan-500 font-mono text-xs md:text-sm tracking-[0.5em] mb-16 uppercase text-center border-y border-cyan-500/30 py-2 w-full max-w-lg bg-cyan-950/20 backdrop-blur-md">
-          /// ARCHITECTING EDUCATIONAL INTELLIGENCE ///
-        </p>
+        {/* LEFT COLUMN: TEXT CONTENT */}
+        <div className="flex flex-col items-start justify-center text-left order-2 md:order-1">
+          <div className="relative mb-6 group">
+            <h1 className="text-7xl md:text-9xl font-thin tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-cyan-100 via-white to-cyan-200 relative z-10" 
+                style={{fontFamily: 'Samarkan, sans-serif', textShadow: '0 0 30px rgba(6,182,212,0.8), 0 0 60px rgba(34,211,238,0.6), 0 0 90px rgba(6,182,212,0.4)', letterSpacing: '-2px', fontWeight: 300}}>
+              SUTRA
+            </h1>
+            <h1 className="absolute top-0 left-0 text-7xl md:text-9xl tracking-tighter text-cyan-300 opacity-0 group-hover:opacity-50 animate-glitch-1" style={{fontFamily: 'Samarkan, sans-serif', letterSpacing: '-2px', fontWeight: 300}} aria-hidden="true">SUTRA</h1>
+            <h1 className="absolute top-0 left-0 text-7xl md:text-9xl tracking-tighter text-purple-300 opacity-0 group-hover:opacity-50 animate-glitch-2" style={{fontFamily: 'Samarkan, sans-serif', letterSpacing: '-2px', fontWeight: 300}} aria-hidden="true">SUTRA</h1>
+          </div>
+          
+          <p className="text-cyan-500 font-mono text-xs md:text-sm tracking-[0.5em] mb-12 uppercase text-left border-y border-cyan-500/30 py-2 w-full max-w-lg bg-cyan-950/20 backdrop-blur-md">
+            /// ARCHITECTING EDUCATIONAL INTELLIGENCE ///
+          </p>
 
-        <div className="relative group mb-16">
-          <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-          <button 
-            onClick={() => navigate("/login")}
-            className="relative w-64 h-16 bg-black border border-cyan-500/50 flex items-center justify-center gap-4 overflow-hidden hover:border-cyan-400 transition-all group-hover:w-72"
-            style={{clipPath: 'polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)'}}
-          >
-            <div className="absolute inset-0 bg-cyan-900/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-            <span className="font-display font-bold text-xl tracking-widest text-white z-10">INITIATE</span>
-            <div className="w-3 h-3 bg-cyan-400 rotate-45 animate-pulse z-10"></div>
-          </button>
+          <div className="relative group mb-8">
+            <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+            <button 
+              onClick={() => navigate("/login")}
+              className="relative w-64 h-16 bg-black border border-cyan-500/50 flex items-center justify-center gap-4 overflow-hidden hover:border-cyan-400 transition-all group-hover:w-72"
+              style={{clipPath: 'polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)'}}
+            >
+              <div className="absolute inset-0 bg-cyan-900/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+              <span className="font-display font-bold text-xl tracking-widest text-white z-10">INITIATE</span>
+              <div className="w-3 h-3 bg-cyan-400 rotate-45 animate-pulse z-10"></div>
+            </button>
+          </div>
         </div>
 
-        {/* FEATURES CARDS */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full px-4 mb-20">
+        {/* RIGHT COLUMN: ROBOT + 3D GLOW */}
+        <div className="flex justify-center md:justify-end items-center order-1 md:order-2 relative h-[50vh] md:h-auto">
+           {/* 3D GLOWING EFFECT BEHIND ROBOT */}
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-cyan-500/20 blur-[80px] rounded-full animate-pulse-slow pointer-events-none"></div>
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-purple-500/10 blur-[60px] rounded-full animate-pulse pointer-events-none mix-blend-screen"></div>
+           
+           <img 
+            src={heroRobot} 
+            alt="SUTRA AI Robot" 
+            className="w-full max-w-[500px] md:max-w-[650px] h-auto object-contain z-10 animate-float drop-shadow-[0_0_25px_rgba(6,182,212,0.4)]" 
+           />
+        </div>
+
+      </div>
+
+      {/* FEATURES CARDS */}
+      <div className="flex justify-center w-full px-4 mb-20 relative z-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full">
           {[
             { title: "LOGIC CORE", icon: "❖", desc: "Advanced node-based logic construction." },
             { title: "AUTO-LFA", icon: "⚡", desc: "Instantaneous ISO-standard generation." },
@@ -114,13 +146,13 @@ const LandingPage = () => {
             </div>
           ))}
         </div>
+      </div>
 
-        {/* === SECTION 1: PROBLEM STATEMENT (ID LINKED) === */}
+      {/* === SECTION 1: PROBLEM STATEMENT === */}
+      <div className="flex flex-col items-center w-full">
         <div id="problem-statement" className="w-full max-w-6xl px-4 mb-24 relative z-10">
           <div className="bg-slate-900/60 border-l-4 border-red-500 p-8 md:p-12 relative overflow-hidden backdrop-blur-md">
-            {/* Background Data effect */}
             <div className="absolute right-0 top-0 text-[10rem] font-black text-red-500/5 z-0 pointer-events-none font-display">ERROR</div>
-            
             <div className="relative z-10">
               <h2 className="text-3xl md:text-4xl font-display font-bold text-red-400 mb-6 flex items-center gap-4">
                 <span className="animate-pulse">⚠️</span> PROBLEM STATEMENT
@@ -136,12 +168,10 @@ const LandingPage = () => {
           </div>
         </div>
 
-        {/* === SECTION 2: SOLUTION (ID LINKED) === */}
+        {/* === SECTION 2: SOLUTION === */}
         <div id="solution" className="w-full max-w-6xl px-4 mb-32 relative z-10">
           <div className="bg-slate-900/60 border-r-4 border-cyan-500 p-8 md:p-12 relative overflow-hidden backdrop-blur-md text-right">
-             {/* Background Data effect */}
              <div className="absolute left-0 top-0 text-[10rem] font-black text-cyan-500/5 z-0 pointer-events-none font-display">SOLVED</div>
-
              <div className="relative z-10">
               <h2 className="text-3xl md:text-4xl font-display font-bold text-cyan-400 mb-6 flex items-center justify-end gap-4">
                 SYSTEM SOLUTION <span className="animate-pulse">⚡</span> 
@@ -152,7 +182,6 @@ const LandingPage = () => {
                 Our system guides users through a "Phase-based" journey—from diagnosing the root problem to mapping stakeholders and selecting indicators—using AI-driven prompts and visual logic maps. This ensures that every NGO, regardless of size, can create a funder-ready impact strategy in minutes, not months. We bridge the gap between "Idea" and "Execution" with zero technical friction.
               </p>
               
-              {/* Decorative Tech Specs */}
               <div className="flex justify-end gap-4 mt-8 font-mono text-xs text-cyan-600">
                 <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30">AI_ASSIST: ACTIVE</span>
                 <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30">LFA_ENGINE: V.2.0</span>
@@ -161,20 +190,14 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-
       </div>
 
       <style>{`
-        /* --- NEW: Hide Scrollbar but keep functionality --- */
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .no-scrollbar {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
-        }
+        /* --- Hide Scrollbar --- */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* --- EXISTING ANIMATIONS --- */
+        /* --- Animations --- */
         @keyframes pulse-slow {
           0%, 100% { opacity: 0.25; transform: scale(1) translate(-50%, -50%); }
           50% { opacity: 0.4; transform: scale(1.1) translate(-50%, -50%); }
@@ -214,11 +237,16 @@ const LandingPage = () => {
           50% { transform: scaleY(0.02) scaleX(1); opacity: 1; filter: brightness(5); }
           100% { transform: scaleY(1) scaleX(1); opacity: 1; filter: brightness(1); }
         }
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
+        }
         .animate-scan { animation: scan 1.5s linear infinite; }
         .animate-glitch-1 { animation: glitch-1 2.5s infinite linear alternate-reverse; }
         .animate-glitch-2 { animation: glitch-2 3s infinite linear alternate-reverse; }
         .animate-blink { animation: blink 1s step-end infinite; }
         .animate-crt-turn-on { animation: crt-turn-on 0.2s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+        .animate-float { animation: float 6s ease-in-out infinite; }
       `}</style>
     </div>
   );
