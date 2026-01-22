@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+// --- ROBOT IMAGES IMPORT ---
+import roboReading from "../assets/robo-reading.png";
+import roboThinking from "../assets/robo-thinking.png";
+import roboBlinking from "../assets/robo-blinking.png";
 
 const LandingPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [bootLines, setBootLines] = useState([]);
 
-  // 1. BOOT SEQUENCE LOGIC
+  // BOOT SEQUENCE LOGIC
   useEffect(() => {
     const lines = [
       "> INITIALIZING KERNEL...",
@@ -45,7 +49,7 @@ const LandingPage = () => {
   }
 
   return (
-    // FIX: Added 'no-scrollbar' class here to hide the bar
+    // Added 'no-scrollbar' class here to hide the bar
     <div className="min-h-screen bg-[#050510] flex flex-col relative overflow-x-hidden no-scrollbar font-sans text-white selection:bg-cyan-500/30 animate-crt-turn-on pt-24">
       
       {/* HUD OVERLAY */}
@@ -71,97 +75,164 @@ const LandingPage = () => {
       {/* BACKGROUND GRID */}
       <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(0,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px] animate-grid-scroll opacity-70"></div>
 
-      {/* HERO SECTION */}
-      <div className="flex-1 flex flex-col items-center justify-center relative z-10 px-4 mt-10">
-        <div className="relative mb-6 group">
-          <h1 className="text-7xl md:text-9xl font-thin text-center tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-cyan-100 via-white to-cyan-200 relative z-10" 
-              style={{fontFamily: 'Samarkan, sans-serif', textShadow: '0 0 30px rgba(6,182,212,0.8), 0 0 60px rgba(34,211,238,0.6), 0 0 90px rgba(6,182,212,0.4)', letterSpacing: '-2px', fontWeight: 300}}>
-            SUTRA
-          </h1>
-          <h1 className="absolute top-0 left-0 text-7xl md:text-9xl text-center tracking-tighter text-cyan-300 opacity-0 group-hover:opacity-50 animate-glitch-1" style={{fontFamily: 'Samarkan, sans-serif', letterSpacing: '-2px', fontWeight: 300}} aria-hidden="true">SUTRA</h1>
-          <h1 className="absolute top-0 left-0 text-7xl md:text-9xl text-center tracking-tighter text-purple-300 opacity-0 group-hover:opacity-50 animate-glitch-2" style={{fontFamily: 'Samarkan, sans-serif', letterSpacing: '-2px', fontWeight: 300}} aria-hidden="true">SUTRA</h1>
-        </div>
+      {/* HERO SECTION - Side-by-Side Layout */}
+      <div className="flex-1 w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between relative z-10 px-4 mt-10 gap-10">
         
-        <p className="text-cyan-500 font-mono text-xs md:text-sm tracking-[0.5em] mb-16 uppercase text-center border-y border-cyan-500/30 py-2 w-full max-w-lg bg-cyan-950/20 backdrop-blur-md">
-          /// ARCHITECTING EDUCATIONAL INTELLIGENCE ///
-        </p>
+        {/* LEFT SIDE: TEXT CONTENT */}
+        <div className="flex flex-col items-center md:items-start text-center md:text-left flex-1 md:pl-8">
+          <div className="relative mb-6 group">
+            {/* UPDATED SUTRA TEXT COLOR: Cyan to Purple Gradient */}
+            <h1 className="text-7xl md:text-9xl font-thin tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-cyan-400 via-white to-purple-500 relative z-10" 
+                style={{
+                  fontFamily: 'Samarkan, sans-serif', 
+                  textShadow: '0 0 30px rgba(6,182,212,0.6), 0 0 60px rgba(168,85,247,0.5), 0 0 90px rgba(6,182,212,0.3)', 
+                  letterSpacing: '-2px', 
+                  fontWeight: 300
+                }}>
+              SUTRA
+            </h1>
+            <h1 className="absolute top-0 left-0 text-7xl md:text-9xl tracking-tighter text-cyan-300 opacity-0 group-hover:opacity-50 animate-glitch-1" style={{fontFamily: 'Samarkan, sans-serif', letterSpacing: '-2px', fontWeight: 300}} aria-hidden="true">SUTRA</h1>
+            <h1 className="absolute top-0 left-0 text-7xl md:text-9xl tracking-tighter text-purple-300 opacity-0 group-hover:opacity-50 animate-glitch-2" style={{fontFamily: 'Samarkan, sans-serif', letterSpacing: '-2px', fontWeight: 300}} aria-hidden="true">SUTRA</h1>
+          </div>
+          
+          <p className="text-cyan-500 font-mono text-xs md:text-sm tracking-[0.5em] mb-16 uppercase border-y border-cyan-500/30 py-2 w-full max-w-lg bg-cyan-950/20 backdrop-blur-md">
+            /// ARCHITECTING EDUCATIONAL INTELLIGENCE ///
+          </p>
 
-        <div className="relative group mb-16">
-          <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-          <button 
-            onClick={() => navigate("/login")}
-            className="relative w-64 h-16 bg-black border border-cyan-500/50 flex items-center justify-center gap-4 overflow-hidden hover:border-cyan-400 transition-all group-hover:w-72"
-            style={{clipPath: 'polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)'}}
-          >
-            <div className="absolute inset-0 bg-cyan-900/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-            <span className="font-display font-bold text-xl tracking-widest text-white z-10">INITIATE</span>
-            <div className="w-3 h-3 bg-cyan-400 rotate-45 animate-pulse z-10"></div>
-          </button>
-        </div>
-
-        {/* FEATURES CARDS */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full px-4 mb-20">
-          {[
-            { title: "LOGIC CORE", icon: "❖", desc: "Advanced node-based logic construction." },
-            { title: "AUTO-LFA", icon: "⚡", desc: "Instantaneous ISO-standard generation." },
-            { title: "IMPACT SYNC", icon: "◈", desc: "Real-time mission alignment protocols." }
-          ].map((feature, idx) => (
-            <div key={idx} className="group relative p-8 bg-slate-900/40 border border-white/10 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-2 overflow-hidden backdrop-blur-sm">
-              <div className="text-5xl mb-4 text-slate-700 group-hover:text-cyan-400 transition-colors font-display">{feature.icon}</div>
-              <h3 className="text-xl font-bold font-display text-white mb-2 group-hover:text-cyan-300">{feature.title}</h3>
-              <p className="text-sm font-mono text-slate-400 group-hover:text-slate-300">{feature.desc}</p>
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent translate-y-[-100%] group-hover:animate-scan"></div>
-            </div>
-          ))}
-        </div>
-
-        {/* === SECTION 1: PROBLEM STATEMENT (ID LINKED) === */}
-        <div id="problem-statement" className="w-full max-w-6xl px-4 mb-24 relative z-10">
-          <div className="bg-slate-900/60 border-l-4 border-red-500 p-8 md:p-12 relative overflow-hidden backdrop-blur-md">
-            {/* Background Data effect */}
-            <div className="absolute right-0 top-0 text-[10rem] font-black text-red-500/5 z-0 pointer-events-none font-display">ERROR</div>
-            
-            <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-red-400 mb-6 flex items-center gap-4">
-                <span className="animate-pulse">⚠️</span> PROBLEM STATEMENT
-              </h2>
-              <p className="text-slate-300 font-mono leading-relaxed text-sm md:text-base text-justify">
-                Many organisations (NGOs/CSOs) working in education struggle to clearly design their programs before starting or scaling their work. They often know what they want to improve, but find it difficult to clearly define the problem, identify the right stakeholders, decide what needs to change in day-to-day practice, and understand how those changes will be measured. 
-                <br /><br />
-                As a result, program design becomes slow, dependent on experts, and expensive. What organisations need right now is a simple, guided way to think through these questions step by step. This can be translated into a digital or gamified platform that helps organisations move from idea to action by clearly walking them through a checklist: define the problem, identify the student-level change, decide the approach, map key stakeholders, specify expected practice changes, and choose simple indicators to track progress.
-                <br /><br />
-                <span className="text-red-300 border-b border-red-500/30 pb-1">The task is to build a gamified tool that makes this process easy to follow, practical to use, and accessible to teams without technical or design expertise.</span>
-              </p>
-            </div>
+          <div className="relative group mb-16">
+            <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+            <button 
+              onClick={() => navigate("/login")}
+              className="relative w-64 h-16 bg-black border border-cyan-500/50 flex items-center justify-center gap-4 overflow-hidden hover:border-cyan-400 transition-all group-hover:w-72"
+              style={{clipPath: 'polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)'}}
+            >
+              <div className="absolute inset-0 bg-cyan-900/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+              <span className="font-display font-bold text-xl tracking-widest text-white z-10">INITIATE</span>
+              <div className="w-3 h-3 bg-cyan-400 rotate-45 animate-pulse z-10"></div>
+            </button>
           </div>
         </div>
 
-        {/* === SECTION 2: SOLUTION (ID LINKED) === */}
-        <div id="solution" className="w-full max-w-6xl px-4 mb-32 relative z-10">
-          <div className="bg-slate-900/60 border-r-4 border-cyan-500 p-8 md:p-12 relative overflow-hidden backdrop-blur-md text-right">
-             {/* Background Data effect */}
-             <div className="absolute left-0 top-0 text-[10rem] font-black text-cyan-500/5 z-0 pointer-events-none font-display">SOLVED</div>
+        {/* RIGHT SIDE: ROBOT IMAGE + GLOW */}
+        <div className="flex-1 flex justify-center items-center relative mt-12 md:mt-0">
+           {/* GLOW EFFECT */}
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[700px] md:h-[700px] bg-cyan-500/20 blur-[100px] rounded-full animate-pulse-slow"></div>
+           
+           {/* ROBOT IMAGE WITH FLOAT ANIMATION WRAPPER */}
+           <div className="animate-float z-10 relative">
+             <img 
+               src={roboReading} 
+               alt="Sutra Assistant" 
+               className="w-full max-w-xl md:max-w-2xl h-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+             />
+           </div>
+        </div>
 
-             <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-cyan-400 mb-6 flex items-center justify-end gap-4">
-                SYSTEM SOLUTION <span className="animate-pulse">⚡</span> 
-              </h2>
-              <p className="text-slate-300 font-mono leading-relaxed text-sm md:text-base text-justify" style={{ direction: "rtl", textAlign: "left" }}>
-                SUTRA acts as a digital architect for social change. By transforming the complex Logical Framework Approach into a gamified "Mission Control" interface, we empower non-technical teams to build rigorous program designs without needing external experts. 
-                <br /><br />
-                Our system guides users through a "Phase-based" journey—from diagnosing the root problem to mapping stakeholders and selecting indicators—using AI-driven prompts and visual logic maps. This ensures that every NGO, regardless of size, can create a funder-ready impact strategy in minutes, not months. We bridge the gap between "Idea" and "Execution" with zero technical friction.
-              </p>
+      </div>
+
+      {/* FEATURES CARDS */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full px-4 mb-20 mx-auto">
+        {[
+          { title: "LOGIC CORE", icon: "❖", desc: "Advanced node-based logic construction." },
+          { title: "AUTO-LFA", icon: "⚡", desc: "Instantaneous ISO-standard generation." },
+          { title: "IMPACT SYNC", icon: "◈", desc: "Real-time mission alignment protocols." }
+        ].map((feature, idx) => (
+          <div key={idx} className="group relative p-8 bg-slate-900/40 border border-white/10 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-2 overflow-hidden backdrop-blur-sm">
+            <div className="text-5xl mb-4 text-slate-700 group-hover:text-cyan-400 transition-colors font-display">{feature.icon}</div>
+            <h3 className="text-xl font-bold font-display text-white mb-2 group-hover:text-cyan-300">{feature.title}</h3>
+            <p className="text-sm font-mono text-slate-400 group-hover:text-slate-300">{feature.desc}</p>
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent translate-y-[-100%] group-hover:animate-scan"></div>
+          </div>
+        ))}
+      </div>
+
+      {/* === SECTION 1: PROBLEM STATEMENT (MODIFIED LAYOUT) === */}
+      <div id="problem-statement" className="w-full max-w-7xl px-4 mb-32 relative z-10 mx-auto">
+        <div className="flex flex-col md:flex-row items-center gap-10">
+          
+          {/* LEFT: ROBO THINKING */}
+          <div className="flex-1 flex justify-center items-center relative order-2 md:order-1">
+            {/* RED GLOW for Problem Section */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-red-600/20 blur-[80px] rounded-full animate-pulse-slow"></div>
+            {/* FLOAT WRAPPER with DELAY */}
+            <div className="animate-float z-10 relative" style={{ animationDelay: '1s' }}>
+              <img 
+                src={roboThinking} 
+                alt="Analyzing Problem" 
+                className="w-full max-w-sm md:max-w-md drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+          </div>
+
+          {/* RIGHT: PROBLEM TEXT BOX */}
+          <div className="flex-1 order-1 md:order-2">
+            <div className="bg-slate-900/60 border-l-4 border-red-500 p-8 md:p-12 relative overflow-hidden backdrop-blur-md rounded-r-xl">
+              {/* Background Data effect */}
+              <div className="absolute right-0 top-0 text-[10rem] font-black text-red-500/5 z-0 pointer-events-none font-display">ERROR</div>
               
-              {/* Decorative Tech Specs */}
-              <div className="flex justify-end gap-4 mt-8 font-mono text-xs text-cyan-600">
-                <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30">AI_ASSIST: ACTIVE</span>
-                <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30">LFA_ENGINE: V.2.0</span>
-                <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30">USER_FRIENDLY: 100%</span>
+              <div className="relative z-10">
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-red-400 mb-6 flex items-center gap-4">
+                  <span className="animate-pulse">⚠️</span> PROBLEM STATEMENT
+                </h2>
+                <p className="text-slate-300 font-mono leading-relaxed text-sm md:text-base text-justify">
+                  Many organisations (NGOs/CSOs) working in education struggle to clearly design their programs before starting or scaling their work. They often know what they want to improve, but find it difficult to clearly define the problem, identify the right stakeholders, decide what needs to change in day-to-day practice, and understand how those changes will be measured. 
+                  <br /><br />
+                  As a result, program design becomes slow, dependent on experts, and expensive. What organisations need right now is a simple, guided way to think through these questions step by step. This can be translated into a digital or gamified platform that helps organisations move from idea to action by clearly walking them through a checklist: define the problem, identify the student-level change, decide the approach, map key stakeholders, specify expected practice changes, and choose simple indicators to track progress.
+                  <br /><br />
+                  <span className="text-red-300 border-b border-red-500/30 pb-1">The task is to build a gamified tool that makes this process easy to follow, practical to use, and accessible to teams without technical or design expertise.</span>
+                </p>
               </div>
             </div>
           </div>
-        </div>
 
+        </div>
+      </div>
+
+      {/* === SECTION 2: SOLUTION (MODIFIED LAYOUT) === */}
+      <div id="solution" className="w-full max-w-7xl px-4 mb-32 relative z-10 mx-auto">
+        <div className="flex flex-col md:flex-row items-center gap-10">
+
+          {/* LEFT: SOLUTION TEXT BOX */}
+          <div className="flex-1">
+            <div className="bg-slate-900/60 border-r-4 border-cyan-500 p-8 md:p-12 relative overflow-hidden backdrop-blur-md text-right rounded-l-xl">
+               {/* Background Data effect */}
+               <div className="absolute left-0 top-0 text-[10rem] font-black text-cyan-500/5 z-0 pointer-events-none font-display">SOLVED</div>
+
+               <div className="relative z-10">
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-cyan-400 mb-6 flex items-center justify-end gap-4">
+                  SYSTEM SOLUTION <span className="animate-pulse">⚡</span> 
+                </h2>
+                <p className="text-slate-300 font-mono leading-relaxed text-sm md:text-base text-justify" style={{ direction: "rtl", textAlign: "left" }}>
+                  SUTRA acts as a digital architect for social change. By transforming the complex Logical Framework Approach into a gamified "Mission Control" interface, we empower non-technical teams to build rigorous program designs without needing external experts. 
+                  <br /><br />
+                  Our system guides users through a "Phase-based" journey—from diagnosing the root problem to mapping stakeholders and selecting indicators—using AI-driven prompts and visual logic maps. This ensures that every NGO, regardless of size, can create a funder-ready impact strategy in minutes, not months. We bridge the gap between "Idea" and "Execution" with zero technical friction.
+                </p>
+                
+                {/* Decorative Tech Specs */}
+                <div className="flex justify-end gap-4 mt-8 font-mono text-xs text-cyan-600">
+                  <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30">AI_ASSIST: ACTIVE</span>
+                  <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30">LFA_ENGINE: V.2.0</span>
+                  <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30">USER_FRIENDLY: 100%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT: ROBO BLINKING */}
+          <div className="flex-1 flex justify-center items-center relative">
+            {/* CYAN GLOW for Solution Section */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-cyan-500/20 blur-[80px] rounded-full animate-pulse-slow"></div>
+            {/* FLOAT WRAPPER with DELAY */}
+            <div className="animate-float z-10 relative" style={{ animationDelay: '2s' }}>
+              <img 
+                src={roboBlinking} 
+                alt="Solution Found" 
+                className="w-full max-w-sm md:max-w-md drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+          </div>
+
+        </div>
       </div>
 
       <style>{`
@@ -173,6 +244,13 @@ const LandingPage = () => {
           -ms-overflow-style: none;  /* IE and Edge */
           scrollbar-width: none;  /* Firefox */
         }
+        
+        /* --- NEW: Floating Animation --- */
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
+        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
 
         /* --- EXISTING ANIMATIONS --- */
         @keyframes pulse-slow {
