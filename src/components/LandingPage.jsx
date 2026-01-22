@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+// Ensure these assets are in src/assets/
+import spaceBg from "../assets/space-bg.jpg";
+import cloudFloor from "../assets/cloud-floor.png";
 import heroRobot from "../assets/hero-robot.png";
-// Note: We don't import cloudFloor here anymore as it's handled globally in index.css
 
 const LandingPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [bootLines, setBootLines] = useState([]);
 
-  // 1. BOOT SEQUENCE LOGIC
   useEffect(() => {
     const lines = [
       "> INITIALIZING KERNEL...",
@@ -24,13 +26,18 @@ const LandingPage = () => {
       setTimeout(() => {
         setBootLines(prev => [...prev, line]);
       }, delay);
-      delay += 500 + Math.random() * 500;
+      delay += 400 + Math.random() * 300;
     });
 
-    setTimeout(() => {
-      setLoading(false);
-    }, delay + 800);
+    setTimeout(() => setLoading(false), delay + 800);
   }, []);
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   if (loading) {
     return (
@@ -47,189 +54,143 @@ const LandingPage = () => {
   }
 
   return (
-    // Outer Container (Background handled by index.css body)
-    <div className="min-h-screen flex flex-col relative overflow-x-hidden no-scrollbar font-sans text-white selection:bg-cyan-500/30 animate-crt-turn-on pt-24">
+    /* Apply 'no-scrollbar' to hide the vertical bar */
+    <div className="h-screen w-full overflow-x-hidden overflow-y-auto bg-[#050510] no-scrollbar font-sans text-white selection:bg-cyan-500/30 scroll-smooth">
       
-      {/* HUD OVERLAY */}
-      <div className="fixed inset-0 pointer-events-none z-40 p-6 hidden md:block">
-        <div className="absolute top-24 left-6 border-l-2 border-t-2 border-cyan-500/50 w-32 h-32 rounded-tl-3xl opacity-60"></div>
-        <div className="absolute top-28 left-10 font-mono text-xs text-cyan-400">
-          <div>SYS.STATUS: <span className="text-green-400 animate-pulse">ONLINE</span></div>
-          <div>LOC: 22.88.11</div>
+      {/* 1. ZOOMED OUT BACKGROUND SYSTEM */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        {/* Space Background (Zoomed Out with scale-100) */}
+        <div className="absolute inset-0 scale-100 animate-bg-darken">
+          <img src={spaceBg} className="w-full h-full object-cover opacity-50 mix-blend-screen grayscale contrast-125" alt="space" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#050510] via-transparent to-[#050510]"></div>
         </div>
-        <div className="absolute bottom-6 left-6 border-l-2 border-b-2 border-cyan-500/50 w-32 h-32 rounded-bl-3xl opacity-60"></div>
-        <div className="absolute bottom-8 left-10 font-mono text-xs text-cyan-400 opacity-50">/// SUTRA.OS.VER.2.0 ///</div>
-        <div className="absolute bottom-6 right-6 border-r-2 border-b-2 border-purple-500/50 w-32 h-32 rounded-br-3xl opacity-60"></div>
+
+        {/* Cloud Layer (Visible and Melted) */}
+        <div className="absolute bottom-0 w-full h-1/2 opacity-60 mix-blend-lighten animate-cloud-up">
+          <img 
+            src={cloudFloor} 
+            className="w-full h-full object-contain" 
+            style={{ 
+              maskImage: 'radial-gradient(ellipse at bottom, black 40%, transparent 90%)', 
+              WebkitMaskImage: 'radial-gradient(ellipse at bottom, black 40%, transparent 90%)' 
+            }}
+            alt="clouds" 
+          />
+        </div>
       </div>
 
-      {/* CORNER GLOWS */}
-      <div className="absolute top-0 left-0 z-0 pointer-events-none">
-        <div className="w-[800px] h-[800px] bg-purple-600/25 blur-[150px] rounded-full -translate-x-1/2 -translate-y-1/2 mix-blend-screen animate-pulse-slow"></div>
-      </div>
-      <div className="absolute bottom-0 right-0 z-0 pointer-events-none">
-        <div className="w-[800px] h-[800px] bg-blue-600/25 blur-[150px] rounded-full translate-x-1/2 translate-y-1/2 mix-blend-screen animate-pulse-slow" style={{animationDelay: '1s'}}></div>
-      </div>
+      {/* 2. HEADER BAR (Transparent with visible buttons) */}
+      <nav className="fixed top-0 left-0 right-0 z-[100] px-8 py-4 flex justify-between items-center bg-[#050510]/40 backdrop-blur-md border-b border-white/5">
+         <div className="flex items-center gap-4">
+            <div className="font-display font-bold text-2xl text-cyan-400 tracking-tighter">SUTRA</div>
+            <div className="hidden lg:flex gap-6 ml-8 font-mono text-xs tracking-widest text-gray-300 uppercase">
+               <button onClick={() => navigate("/")} className="hover:text-cyan-400 transition-colors">Dashboard</button>
+               <button onClick={() => scrollToSection('problem-statement')} className="hover:text-red-400 transition-colors">Problem Statement</button>
+               <button onClick={() => scrollToSection('solution')} className="hover:text-cyan-400 transition-colors">Solution</button>
+               <button onClick={() => scrollToSection('systems-grid')} className="hover:text-purple-400 transition-colors">Systems</button>
+            </div>
+         </div>
+         <div className="text-xs md:text-sm text-green-400 animate-pulse font-mono tracking-widest hidden md:block uppercase">SYS.STATUS: ONLINE</div>
+      </nav>
 
-      {/* === MIDDLE CONTAINER (Content) WITH GLASS EFFECT === */}
-      {/* Added: bg-slate-900/30 backdrop-blur-md border border-white/10 rounded-3xl shadow-2xl p-8 md:p-12 */}
-      <div className="flex-1 w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative z-10 px-6 md:px-12 mt-10 mb-20 bg-slate-900/30 backdrop-blur-md border border-white/10 rounded-3xl shadow-2xl p-8 md:p-12">
+      {/* 3. CONTENT AREA (Pushed down to avoid header overlap) */}
+      <div className="relative z-10 pt-48 pb-20">
         
-        {/* LEFT COLUMN: TEXT CONTENT */}
-        <div className="flex flex-col items-start justify-center text-left order-2 md:order-1">
-          <div className="relative mb-6 group">
-            <h1 className="text-7xl md:text-9xl font-thin tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-cyan-100 via-white to-cyan-200 relative z-10" 
-                style={{fontFamily: 'Samarkan, sans-serif', textShadow: '0 0 30px rgba(6,182,212,0.8), 0 0 60px rgba(34,211,238,0.6), 0 0 90px rgba(6,182,212,0.4)', letterSpacing: '-2px', fontWeight: 300}}>
-              SUTRA
-            </h1>
-            <h1 className="absolute top-0 left-0 text-7xl md:text-9xl tracking-tighter text-cyan-300 opacity-0 group-hover:opacity-50 animate-glitch-1" style={{fontFamily: 'Samarkan, sans-serif', letterSpacing: '-2px', fontWeight: 300}} aria-hidden="true">SUTRA</h1>
-            <h1 className="absolute top-0 left-0 text-7xl md:text-9xl tracking-tighter text-purple-300 opacity-0 group-hover:opacity-50 animate-glitch-2" style={{fontFamily: 'Samarkan, sans-serif', letterSpacing: '-2px', fontWeight: 300}} aria-hidden="true">SUTRA</h1>
-          </div>
+        {/* HERO SECTION (Smaller scale elements) */}
+        <div className="max-w-[1200px] mx-auto px-10 flex flex-col lg:flex-row items-center justify-center gap-10 mb-40">
           
-          <p className="text-cyan-500 font-mono text-xs md:text-sm tracking-[0.5em] mb-12 uppercase text-left border-y border-cyan-500/30 py-2 w-full max-w-lg bg-cyan-950/20 backdrop-blur-md">
-            /// ARCHITECTING EDUCATIONAL INTELLIGENCE ///
-          </p>
+          <div className="flex-1 text-center lg:text-left">
+            <div className="relative mb-6 group inline-block">
+              {/* Reduced title size for a better fit */}
+              <h1 className="text-7xl md:text-8xl xl:text-9xl font-thin tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-cyan-100 to-white relative z-10 leading-none" 
+                  style={{fontFamily: 'Samarkan, sans-serif', textShadow: '0 0 40px rgba(6,182,212,0.4)'}}>
+                SUTRA
+              </h1>
+            </div>
+            
+            <p className="text-cyan-400 font-mono text-sm md:text-lg xl:text-xl tracking-[0.4em] mb-12 uppercase py-4 border-y border-cyan-500/10 max-w-2xl mx-auto lg:mx-0">
+              /// ARCHITECTING EDUCATIONAL INTELLIGENCE ///
+            </p>
 
-          <div className="relative group mb-8">
-            <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+            {/* Smaller Initiate Button */}
             <button 
               onClick={() => navigate("/login")}
-              className="relative w-64 h-16 bg-black border border-cyan-500/50 flex items-center justify-center gap-4 overflow-hidden hover:border-cyan-400 transition-all group-hover:w-72"
+              className="relative w-64 md:w-72 h-16 bg-transparent border border-cyan-500/40 text-white font-display font-bold text-lg tracking-[0.2em] hover:bg-cyan-500/10 transition-all group"
               style={{clipPath: 'polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)'}}
             >
-              <div className="absolute inset-0 bg-cyan-900/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-              <span className="font-display font-bold text-xl tracking-widest text-white z-10">INITIATE</span>
-              <div className="w-3 h-3 bg-cyan-400 rotate-45 animate-pulse z-10"></div>
+              <span className="z-10 relative text-base">INITIATE MISSION</span>
+              <div className="absolute inset-0 bg-cyan-400/5 blur-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
             </button>
           </div>
-        </div>
 
-        {/* RIGHT COLUMN: ROBOT + 3D GLOW */}
-        <div className="flex justify-center md:justify-end items-center order-1 md:order-2 relative h-[50vh] md:h-auto">
-           {/* 3D GLOWING EFFECT BEHIND ROBOT */}
-           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-cyan-500/20 blur-[80px] rounded-full animate-pulse-slow pointer-events-none"></div>
-           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-purple-500/10 blur-[60px] rounded-full animate-pulse pointer-events-none mix-blend-screen"></div>
-           
-           <img 
-            src={heroRobot} 
-            alt="SUTRA AI Robot" 
-            className="w-full max-w-[500px] md:max-w-[650px] h-auto object-contain z-10 animate-float drop-shadow-[0_0_25px_rgba(6,182,212,0.4)]" 
-           />
-        </div>
-
-      </div>
-
-      {/* FEATURES CARDS */}
-      <div className="flex justify-center w-full px-4 mb-20 relative z-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full">
-          {[
-            { title: "LOGIC CORE", icon: "❖", desc: "Advanced node-based logic construction." },
-            { title: "AUTO-LFA", icon: "⚡", desc: "Instantaneous ISO-standard generation." },
-            { title: "IMPACT SYNC", icon: "◈", desc: "Real-time mission alignment protocols." }
-          ].map((feature, idx) => (
-            <div key={idx} className="group relative p-8 bg-slate-900/40 border border-white/10 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-2 overflow-hidden backdrop-blur-sm">
-              <div className="text-5xl mb-4 text-slate-700 group-hover:text-cyan-400 transition-colors font-display">{feature.icon}</div>
-              <h3 className="text-xl font-bold font-display text-white mb-2 group-hover:text-cyan-300">{feature.title}</h3>
-              <p className="text-sm font-mono text-slate-400 group-hover:text-slate-300">{feature.desc}</p>
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent translate-y-[-100%] group-hover:animate-scan"></div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* === SECTION 1: PROBLEM STATEMENT === */}
-      <div className="flex flex-col items-center w-full">
-        <div id="problem-statement" className="w-full max-w-6xl px-4 mb-24 relative z-10">
-          <div className="bg-slate-900/60 border-l-4 border-red-500 p-8 md:p-12 relative overflow-hidden backdrop-blur-md">
-            <div className="absolute right-0 top-0 text-[10rem] font-black text-red-500/5 z-0 pointer-events-none font-display">ERROR</div>
-            <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-red-400 mb-6 flex items-center gap-4">
-                <span className="animate-pulse">⚠️</span> PROBLEM STATEMENT
-              </h2>
-              <p className="text-slate-300 font-mono leading-relaxed text-sm md:text-base text-justify">
-                Many organisations (NGOs/CSOs) working in education struggle to clearly design their programs before starting or scaling their work. They often know what they want to improve, but find it difficult to clearly define the problem, identify the right stakeholders, decide what needs to change in day-to-day practice, and understand how those changes will be measured. 
-                <br /><br />
-                As a result, program design becomes slow, dependent on experts, and expensive. What organisations need right now is a simple, guided way to think through these questions step by step. This can be translated into a digital or gamified platform that helps organisations move from idea to action by clearly walking them through a checklist: define the problem, identify the student-level change, decide the approach, map key stakeholders, specify expected practice changes, and choose simple indicators to track progress.
-                <br /><br />
-                <span className="text-red-300 border-b border-red-500/30 pb-1">The task is to build a gamified tool that makes this process easy to follow, practical to use, and accessible to teams without technical or design expertise.</span>
-              </p>
-            </div>
+          <div className="flex-1 flex justify-center items-center relative scale-100 lg:scale-110">
+            {/* Reduced Robot size and melted effect */}
+            <img 
+              src={heroRobot} 
+              className="w-full max-w-md mix-blend-lighten animate-float relative z-10 pointer-events-none" 
+              style={{ maskImage: 'radial-gradient(circle, black 60%, transparent 95%)', WebkitMaskImage: 'radial-gradient(circle, black 60%, transparent 95%)' }}
+              alt="robot assistant" 
+            />
           </div>
         </div>
 
-        {/* === SECTION 2: SOLUTION === */}
-        <div id="solution" className="w-full max-w-6xl px-4 mb-32 relative z-10">
-          <div className="bg-slate-900/60 border-r-4 border-cyan-500 p-8 md:p-12 relative overflow-hidden backdrop-blur-md text-right">
-             <div className="absolute left-0 top-0 text-[10rem] font-black text-cyan-500/5 z-0 pointer-events-none font-display">SOLVED</div>
-             <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-cyan-400 mb-6 flex items-center justify-end gap-4">
-                SYSTEM SOLUTION <span className="animate-pulse">⚡</span> 
-              </h2>
-              <p className="text-slate-300 font-mono leading-relaxed text-sm md:text-base text-justify" style={{ direction: "rtl", textAlign: "left" }}>
-                SUTRA acts as a digital architect for social change. By transforming the complex Logical Framework Approach into a gamified "Mission Control" interface, we empower non-technical teams to build rigorous program designs without needing external experts. 
-                <br /><br />
-                Our system guides users through a "Phase-based" journey—from diagnosing the root problem to mapping stakeholders and selecting indicators—using AI-driven prompts and visual logic maps. This ensures that every NGO, regardless of size, can create a funder-ready impact strategy in minutes, not months. We bridge the gap between "Idea" and "Execution" with zero technical friction.
-              </p>
-              
-              <div className="flex justify-end gap-4 mt-8 font-mono text-xs text-cyan-600">
-                <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30">AI_ASSIST: ACTIVE</span>
-                <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30">LFA_ENGINE: V.2.0</span>
-                <span className="border border-cyan-900 px-2 py-1 bg-cyan-950/30">USER_FRIENDLY: 100%</span>
+        {/* 4. MODULES SECTION (Smaller grid elements) */}
+        <div className="max-w-[1200px] mx-auto px-10">
+          <div id="systems-grid" className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-40">
+            {["LOGIC CORE", "AUTO-LFA", "IMPACT SYNC"].map((title, i) => (
+              <div key={i} className="p-8 bg-white/[0.02] border border-white/10 backdrop-blur-sm hover:border-cyan-500/40 transition-all hover:-translate-y-2 group">
+                <div className="text-4xl mb-6 text-white/10 group-hover:text-cyan-400 transition-colors tracking-tighter font-display">0{i+1}</div>
+                <h3 className="text-xl font-bold font-display text-white mb-4 tracking-widest">{title}</h3>
+                <p className="text-sm font-mono text-slate-500 group-hover:text-slate-300">System protocol for architecture.</p>
               </div>
-            </div>
+            ))}
+          </div>
+
+          {/* PROBLEM SECTION (Integrated and smaller) */}
+          <div id="problem-statement" className="mb-32 border-l border-red-500/30 p-12 bg-black/10 backdrop-blur-sm relative overflow-hidden">
+             <div className="absolute right-0 top-0 text-[10rem] font-black text-red-500/5 z-0 select-none font-display uppercase">ERROR</div>
+             <h2 className="text-3xl font-display font-bold text-red-500/60 mb-6 relative z-10 tracking-[0.3em]">⚠️ PROBLEM_CORE</h2>
+             <p className="text-slate-400 font-mono leading-relaxed text-lg md:text-xl relative z-10 max-w-4xl">
+               Education leaders face high cognitive load. SUTRA removes this barrier by gamifying the transition from idea to action.
+             </p>
+          </div>
+
+          {/* SOLUTION SECTION (Integrated and smaller) */}
+          <div id="solution" className="mb-40 border-r border-cyan-500/30 p-12 bg-black/10 backdrop-blur-sm relative overflow-hidden text-right">
+             <div className="absolute left-0 top-0 text-[10rem] font-black text-cyan-500/5 z-0 select-none font-display uppercase">RESOLVED</div>
+             <h2 className="text-3xl font-display font-bold text-cyan-500/60 mb-6 relative z-10 tracking-[0.3em]">SYSTEM_SOLUTION ⚡</h2>
+             <p className="text-slate-400 font-mono leading-relaxed text-lg md:text-xl relative z-10 max-w-4xl ml-auto">
+                Our digital architecture allows organizations to build high-quality impact strategies instantly.
+             </p>
           </div>
         </div>
       </div>
 
       <style>{`
-        /* --- Hide Scrollbar --- */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* --- Animations --- */
-        @keyframes pulse-slow {
-          0%, 100% { opacity: 0.25; transform: scale(1) translate(-50%, -50%); }
-          50% { opacity: 0.4; transform: scale(1.1) translate(-50%, -50%); }
+        /* FORCED HIDING OF THE SCROLLBAR */
+        .no-scrollbar::-webkit-scrollbar { display: none !important; }
+        .no-scrollbar { -ms-overflow-style: none !important; scrollbar-width: none !important; }
+        
+        @keyframes cloudUp {
+          from { transform: translateY(0); opacity: 0.6; }
+          to { transform: translateY(-30vh); opacity: 0; }
         }
-        @keyframes pulse-slow-br {
-           0%, 100% { opacity: 0.25; transform: scale(1) translate(50%, 50%); }
-           50% { opacity: 0.4; transform: scale(1.1) translate(50%, 50%); }
+        @keyframes bgDarken {
+          from { filter: brightness(1); }
+          to { filter: brightness(0.2); }
         }
-        .animate-pulse-slow { animation: pulse-slow 6s ease-in-out infinite; }
-        .bottom-0 .animate-pulse-slow { animation-name: pulse-slow-br; }
-        @keyframes scan {
-          0% { transform: translateY(-100%); }
-          100% { transform: translateY(100%); }
+        .animate-cloud-up {
+          animation: cloudUp linear both;
+          animation-timeline: scroll();
+          animation-range: 0 100vh;
         }
-        @keyframes glitch-1 {
-          0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
-          20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
-          40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); }
-          60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
-          80% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 1px); }
-          100% { clip-path: inset(30% 0 50% 0); transform: translate(1px, -1px); }
+        .animate-bg-darken {
+          animation: bgDarken linear both;
+          animation-timeline: scroll();
+          animation-range: 0 150vh;
         }
-        @keyframes glitch-2 {
-          0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -1px); }
-          20% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 2px); }
-          40% { clip-path: inset(30% 0 20% 0); transform: translate(2px, 1px); }
-          60% { clip-path: inset(10% 0 80% 0); transform: translate(-2px, -2px); }
-          80% { clip-path: inset(50% 0 30% 0); transform: translate(1px, -1px); }
-          100% { clip-path: inset(70% 0 10% 0); transform: translate(-1px, 1px); }
-        }
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0; }
-        }
-        @keyframes crt-turn-on {
-          0% { transform: scaleY(0) scaleX(0); opacity: 0; filter: brightness(0); }
-          50% { transform: scaleY(0.02) scaleX(1); opacity: 1; filter: brightness(5); }
-          100% { transform: scaleY(1) scaleX(1); opacity: 1; filter: brightness(1); }
-        }
-        .animate-scan { animation: scan 1.5s linear infinite; }
-        .animate-glitch-1 { animation: glitch-1 2.5s infinite linear alternate-reverse; }
-        .animate-glitch-2 { animation: glitch-2 3s infinite linear alternate-reverse; }
-        .animate-blink { animation: blink 1s step-end infinite; }
-        .animate-crt-turn-on { animation: crt-turn-on 0.2s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
+        .animate-float { animation: float 7s ease-in-out infinite; }
       `}</style>
     </div>
   );
