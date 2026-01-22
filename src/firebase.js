@@ -23,10 +23,10 @@ export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 
-// --- 2. EXPORT THESE FUNCTIONS SO LOGIN.JSX CAN USE THEM ---
+// Export auth helpers
 export { signInWithPopup, signInWithEmailAndPassword, signOut };
 
-// Helper function (Optional, kept for safety)
+// Google sign-in helper
 export const loginWithGoogle = async () => {
   try {
     await signInWithPopup(auth, googleProvider);
