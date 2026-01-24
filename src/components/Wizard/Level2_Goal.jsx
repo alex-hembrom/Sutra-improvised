@@ -1,8 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TypeAnimation } from "react-type-animation";
 
 const Level2_Goal = ({ data, update, next, back }) => {
   const [showHint, setShowHint] = useState(false);
+
+  useEffect(() => {
+    if (data.goal && data.goal.length > 0) {
+      const fullText = data.goal;
+      
+      update("goal", ""); 
+
+      let currentIndex = 0;
+      const typingSpeed = 30;
+
+      const interval = setInterval(() => {
+        currentIndex++;
+        update("goal", fullText.substring(0, currentIndex));
+
+        if (currentIndex === fullText.length) {
+          clearInterval(interval);
+        }
+      }, typingSpeed);
+
+      return () => clearInterval(interval);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const goalExamples = [
     "Students read Grade 3 text with 40+ wpm fluency.",

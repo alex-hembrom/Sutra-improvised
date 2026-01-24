@@ -19,7 +19,7 @@ const LandingPage = () => {
   }, []);
 
   return (
-    // Main container - Removed 'overflow-x-hidden' from here to prevent scroll locking
+ 
     <div className="w-full relative font-sans text-white selection:bg-cyan-500/30">
       
       {/* 1. BACKGROUND LAYER (Fixed & Clipped) */}
@@ -55,7 +55,7 @@ const LandingPage = () => {
       </div>
 
       {/* 3. CONTENT LAYER (Scrollable) */}
-      {/* Added 'min-h-screen' to ensure full scrollability */}
+      {}
       <div className={`relative z-10 flex flex-col w-full min-h-screen ${!animationFinished ? 'animate-crt-turn-on' : 'opacity-100'}`}>
         
         {/* Hero Section */}
@@ -85,7 +85,7 @@ const LandingPage = () => {
   <TypeAnimation
     sequence={[
       "ARCHITECTING EDUCATIONAL INTELLIGENCE",
-      2000, // ২ সেকেন্ড অপেক্ষা করবে
+      2000, 
       "DESIGNING SYSTEMIC CHANGE",
       2000,
       "BUILDING FUTURE FRAMEWORKS",

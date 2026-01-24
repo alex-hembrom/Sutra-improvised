@@ -2,13 +2,31 @@ import React, { useState, useEffect } from "react";
 import { TypeAnimation } from "react-type-animation";
 
 const Level1_Problem = ({ data, update, next, back }) => {
-  // 1. State for the Clarity Meter
   const [analysisScore, setAnalysisScore] = useState(0);
-  
-  // 2. State for the J.A.R.V.I.S. Hint
   const [showHint, setShowHint] = useState(false);
 
-  // Auto-calculate "Signal Strength"
+  useEffect(() => {
+    if (data.problem && data.problem.length > 0) {
+      const fullText = data.problem;
+      
+      update("problem", ""); 
+
+      let currentIndex = 0;
+      const typingSpeed = 30;
+
+      const interval = setInterval(() => {
+        currentIndex++;
+        update("problem", fullText.substring(0, currentIndex));
+
+        if (currentIndex === fullText.length) {
+          clearInterval(interval);
+        }
+      }, typingSpeed);
+
+      return () => clearInterval(interval);
+    }
+  }, []); 
+
   useEffect(() => {
     const length = data.problem ? data.problem.length : 0;
     const score = Math.min(Math.floor((length / 50) * 100), 100);
@@ -24,7 +42,6 @@ const Level1_Problem = ({ data, update, next, back }) => {
   return (
     <div className="animate-fade-in text-white">
       
-      {/* HEADER */}
       <div className="mb-8 border-b border-white/10 pb-6">
         <h2 className="text-4xl font-display font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
           SYSTEM DIAGNOSTIC
@@ -34,10 +51,8 @@ const Level1_Problem = ({ data, update, next, back }) => {
         </p>
       </div>
 
-      {/* THE INPUT TERMINAL */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* LEFT: Input Field */}
         <div className="lg:col-span-2 space-y-6">
           <div>
             <label className="block text-xs font-mono text-cyan-500 mb-2 uppercase tracking-widest">
@@ -51,7 +66,6 @@ const Level1_Problem = ({ data, update, next, back }) => {
             />
           </div>
 
-          {/* Quick Chips */}
           <div>
             <span className="text-xs text-gray-500 uppercase tracking-widest mb-3 block">Quick Inject Protocols:</span>
             <div className="flex flex-wrap gap-3">
@@ -68,13 +82,10 @@ const Level1_Problem = ({ data, update, next, back }) => {
           </div>
         </div>
 
-        {/* RIGHT: J.A.R.V.I.S. Console & Meter */}
         <div className="flex flex-col gap-6">
           
-          {/* 1. THE AI HINT CONSOLE */}
           <div className="bg-slate-900/80 rounded-xl border border-cyan-500/30 p-6 shadow-[0_0_15px_rgba(6,182,212,0.1)] relative overflow-hidden min-h-[300px] flex flex-col">
             
-            {/* Header */}
             <div className="flex justify-between items-center mb-4 border-b border-cyan-500/20 pb-2">
               <h3 className="text-xs font-bold text-cyan-400 uppercase tracking-widest flex items-center gap-2">
                 <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
@@ -83,11 +94,9 @@ const Level1_Problem = ({ data, update, next, back }) => {
               <span className="text-[10px] text-cyan-700 font-mono">V.2.0</span>
             </div>
 
-            {/* Content Area */}
             <div className="flex-1 flex items-start text-sm font-mono leading-relaxed text-cyan-100/90 overflow-y-auto custom-scrollbar">
               
               {!showHint ? (
-                /* STATE A: Show Button */
                 <div className="w-full h-full flex items-center justify-center">
                     <button
                     onClick={() => setShowHint(true)}
@@ -100,9 +109,8 @@ const Level1_Problem = ({ data, update, next, back }) => {
                     </button>
                 </div>
               ) : (
-                /* STATE B: Show Typing Text (STACKING LOGIC) */
                 <TypeAnimation
-                  style={{ whiteSpace: 'pre-line', display: 'block' }} // <--- This allows multiple lines!
+                  style={{ whiteSpace: 'pre-line', display: 'block' }} 
                   sequence={[
                     "Welcome, Agent.",
                     1000,
@@ -114,18 +122,16 @@ const Level1_Problem = ({ data, update, next, back }) => {
                     1500,
                     "Welcome, Agent.\n\nYour objective is precision.\n\nDo not say: 'Education is bad.'\n\nInstead, specify: 'Grade 5 students in rural districts lack reading fluency.'\n\nThe more specific your target, the higher your impact probability.\n\nAwaiting your input...",
                   ]}
-                  speed={75} // Slightly faster to compensate for longer text
+                  speed={75} 
                   cursor={true}
-                  repeat={0} // Do not loop
+                  repeat={0} 
                 />
               )}
             </div>
 
-            {/* Decorative Scan Line */}
             <div className="absolute top-0 left-0 w-full h-[2px] bg-cyan-500/30 animate-[scan_3s_linear_infinite]"></div>
           </div>
 
-          {/* 2. THE CLARITY METER (Kept as requested) */}
           <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
             <div className="flex justify-between text-xs mb-2 font-bold text-gray-400">
               <span>DEFINITION CLARITY</span>
@@ -144,7 +150,6 @@ const Level1_Problem = ({ data, update, next, back }) => {
         </div>
       </div>
 
-      {/* NAVIGATION */}
       <div className="flex justify-between pt-8 border-t border-white/5 mt-8">
         <button
           onClick={back}
